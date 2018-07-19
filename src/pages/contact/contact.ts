@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {NavController} from 'ionic-angular';
+import {CalendarComponent} from 'ng-fullcalendar';
+import {Options} from 'fullcalendar';
 
 @Component({
   selector: 'page-contact',
@@ -7,8 +9,22 @@ import { NavController } from 'ionic-angular';
 })
 export class ContactPage {
 
-  constructor(public navCtrl: NavController) {
+  calendarOptions: Options;
+  @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
 
+  constructor(public navCtrl: NavController) {
+  }
+
+  ngOnInit() {
+    this.calendarOptions = {
+      editable: true,
+      eventLimit: false,
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay,listMonth'
+      }
+    };
   }
 
 }

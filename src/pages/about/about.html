@@ -2,4 +2,8 @@
 
 <ion-content padding>
 
+  <ion-list *ngIf="events.length">
+    <ion-item  *ngFor="let e of events;">{{e.title}} {{e.month}}: {{e.timeStarts}}</ion-item>
+  </ion-list>
+
 </ion-content>

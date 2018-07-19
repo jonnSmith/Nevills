@@ -3,6 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
+import { FullCalendarModule } from 'ng-fullcalendar';
 
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
@@ -40,6 +41,7 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     HttpClientModule,
+    FullCalendarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {AlertController} from 'ionic-angular';
 import {EventsService} from '../../services/events.service';
 import {iEvent} from '../../interfaces/event.interface';
 
@@ -9,21 +10,36 @@ import {iEvent} from '../../interfaces/event.interface';
 export class HomePage {
 
   public event: iEvent;
-  public allEvents:Array<iEvent> = [];
 
   constructor(
-    private events: EventsService
+    private eventService: EventsService,
+    private alertCtrl: AlertController
   ) {
-    this.event = this.events.getDummy();
-    this.events.onEventsChange.subscribe((evts) => {
-      this.allEvents = evts;
-      this.event = this.events.getDummy();
+    this.event = this.eventService.getDummy();
+    this.eventService.onEventsChange.subscribe((evts) => {
+      this.event = this.eventService.getDummy();
     });
   }
 
   addEvent() {
-    this.events.push(this.event);
+    const prompt = this.alertCtrl.create({
+      title: 'Save event '+this.event.title+ '?',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Save',
+          handler: () => {
+            this.eventService.push(this.event);
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
-
 
 }

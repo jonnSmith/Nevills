@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {EventsService} from '../../services/events.service';
+import {iEvent} from '../../interfaces/event.interface';
 
 @Component({
   selector: 'page-about',
@@ -7,8 +8,13 @@ import { NavController } from 'ionic-angular';
 })
 export class AboutPage {
 
-  constructor(public navCtrl: NavController) {
+  public events:Array<iEvent> = [];
 
+  constructor(private eventService: EventsService) {
+    this.events = this.eventService.get();
+    this.eventService.onEventsChange.subscribe((evts) => {
+      this.events = evts;
+    });
   }
 
 }
