@@ -1,7 +1,9 @@
 export interface iEvent {
+  id: number;
   title: string;
-  month: string;
-  timeStarts: string;
-  timeEnds: string;
+  start: string;
+  end: string;
+  time: string;
+  allDay: boolean;
   repeat: boolean;
 }

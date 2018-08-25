@@ -3,7 +3,10 @@
 <ion-content padding>
 
   <ion-list *ngIf="events.length">
-    <ion-item  *ngFor="let e of events;">{{e.title}} {{e.month}}: {{e.timeStarts}}</ion-item>
+    <ion-item  *ngFor="let e of events;">
+      {{e.title}} {{e.start}}: {{e.time}} - {{e.end}}
+      <ion-icon name="ios-close-circle" color="danger" item-end (click)="popEvent(e)"></ion-icon>
+    </ion-item>
   </ion-list>
 
 </ion-content>

@@ -10,19 +10,23 @@
   <ion-list>
     <ion-item>
       <ion-label>{{'start' | translate}}</ion-label>
-      <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.month"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label>{{'time' | translate}}</ion-label>
-      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.timeStarts"></ion-datetime>
+      <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.start"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Ends</ion-label>
-      <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.timeEnds"></ion-datetime>
+      <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.end"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>{{'time' | translate}}</ion-label>
+      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.time"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Repeat</ion-label>
       <ion-toggle [(ngModel)]="event.repeat"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>All day</ion-label>
+      <ion-toggle [(ngModel)]="event.allDay"></ion-toggle>
     </ion-item>
   </ion-list>
   <ion-list>

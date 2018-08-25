@@ -3,11 +3,13 @@ import {BrowserModule} from '@angular/platform-browser';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
-import { FullCalendarModule } from 'ng-fullcalendar';
+import {FullCalendarModule} from 'ng-fullcalendar';
 
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
+import {IonicStorageModule} from '@ionic/storage';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
+import {LocalNotifications} from '@ionic-native/local-notifications';
 
 
 import {MyApp} from './app.component';
@@ -19,8 +21,8 @@ import {ContactPage} from '../pages/contact/contact';
 import {HomePage} from '../pages/home/home';
 import {TabsPage} from '../pages/tabs/tabs';
 
-import {StartupService} from  '../services/startup.service';
-import {EventsService} from  '../services/events.service';
+import {StartupService} from '../services/startup.service';
+import {EventsService} from '../services/events.service';
 
 /**
  * Translation setup
@@ -49,7 +51,8 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -66,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     StartupService,
     EventsService,
+    LocalNotifications,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

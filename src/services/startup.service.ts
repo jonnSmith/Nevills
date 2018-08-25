@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Platform} from 'ionic-angular';
+import {LocalNotifications} from '@ionic-native/local-notifications';
+import {EventsService} from './events.service';
 
 const DEFAULT_LANGUAGE = 'ru';
 
@@ -10,7 +12,9 @@ const DEFAULT_LANGUAGE = 'ru';
 @Injectable()
 export class StartupService {
   constructor(private platform: Platform,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private events: EventsService,
+              private localNotifications: LocalNotifications) {
   }
 
   /**
@@ -22,8 +26,16 @@ export class StartupService {
       this.platform.ready().then(() => {
         return this.initTranslation();
       }).then(() => {
+        return this.events.init();
+      }).then((events: Number) => {
+        if (events) {
+          this.localNotifications.schedule({
+            id: 1,
+            text: 'Events saved: ' + events
+          });
+        }
         res();
-      });
+      })
     });
 
   }
