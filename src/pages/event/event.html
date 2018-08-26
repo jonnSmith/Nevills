@@ -1,0 +1,56 @@
+<header-component [title]="(edit ? 'Edit ball ' : '') + event.title"></header-component>
+<ion-content padding>
+  <button *ngIf="!edit" outline ion-button icon-start color="secondary" (click)="setEdit()">
+    <ion-icon name="md-create"></ion-icon>
+    Edit
+  </button>
+  <ion-list>
+    <ion-item>
+      <ion-input *ngIf="edit" placeholder="Title" [(ngModel)]="event.title"></ion-input>
+      <ion-label *ngIf="!edit">{{event.title}}</ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-textarea *ngIf="edit" placeholder="Description" [(ngModel)]="event.description"></ion-textarea>
+      <div *ngIf="!edit">{{event.description}}</div>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-label>{{'start' | translate}}</ion-label>
+      <ion-datetime *ngIf="edit" displayFormat="YYYY MMM DD " [(ngModel)]="event.start"></ion-datetime>
+      <ion-label *ngIf="!edit">{{event.start}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Ends</ion-label>
+      <ion-datetime *ngIf="edit" displayFormat="YYYY MMM DD" [(ngModel)]="event.end"></ion-datetime>
+      <ion-label *ngIf="!edit">{{event.end}}</ion-label>
+    </ion-item>
+    <ion-item *ngIf="!event.allDay">
+      <ion-label>{{'time' | translate}}</ion-label>
+      <ion-datetime *ngIf="edit" displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.time"></ion-datetime>
+      <ion-label *ngIf="!edit">{{event.time}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Repeat</ion-label>
+      <ion-toggle *ngIf="edit" [(ngModel)]="event.repeat"></ion-toggle>
+      <ion-label *ngIf="!edit">{{event.repeat}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>All day</ion-label>
+      <ion-toggle *ngIf="edit" [(ngModel)]="event.allDay"></ion-toggle>
+      <ion-label *ngIf="!edit">{{event.allDay}}</ion-label>
+    </ion-item>
+    <ion-card>
+      <img  *ngIf="event.photo" [src]="event.photo"/>
+      <ion-card-content *ngIf="edit">
+        <button ion-button color="secondary" full round (click)="takePhoto()">
+          <span *ngIf="!event.photo">Take Photo</span>
+          <span *ngIf="event.photo">Change Photo</span>
+        </button>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <button *ngIf="edit" ion-button full class="button-add-ball button-bottom" (click)="saveEvent()">{{'save' | translate}}</button>
+</ion-content>

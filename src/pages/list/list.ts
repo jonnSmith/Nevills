@@ -1,19 +1,21 @@
 import {Component} from '@angular/core';
 import {EventsService} from '../../services/events.service';
-import {AlertController} from 'ionic-angular';
+import {AlertController, NavController} from 'ionic-angular';
 import {iEvent} from '../../interfaces/event.interface';
+import {EventScreen} from '../event/event'
 
 @Component({
-  selector: 'page-about',
-  templateUrl: 'about.html'
+  selector: 'list',
+  templateUrl: 'list.html'
 })
-export class AboutPage {
+export class ListScreen {
 
   public events:Array<iEvent> = [];
 
   constructor(
     private eventService: EventsService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private nav: NavController
   ) {
     this.events = this.eventService.get();
     this.eventService.onEventsChange.subscribe((evts) => {
@@ -40,6 +42,31 @@ export class AboutPage {
       ]
     });
     prompt.present();
+  }
+
+  saveEvent(event: iEvent) {
+    const prompt = this.alertCtrl.create({
+      title: 'Update event '+event.title+ '?',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Update',
+          handler: () => {
+            this.eventService.put(event);
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
+  openEvent(id: Number) {
+    this.nav.push(EventScreen, { id: id });
   }
 
 }

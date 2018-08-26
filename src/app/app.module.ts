@@ -4,21 +4,23 @@ import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {FullCalendarModule} from 'ng-fullcalendar';
+import {DatePipe} from '@angular/common'
 
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {IonicStorageModule} from '@ionic/storage';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {LocalNotifications} from '@ionic-native/local-notifications';
-
+import {Camera} from '@ionic-native/camera';
 
 import {MyApp} from './app.component';
 
 import {HeaderComponent} from '../components/header/header';
 
-import {AboutPage} from '../pages/about/about';
-import {ContactPage} from '../pages/contact/contact';
-import {HomePage} from '../pages/home/home';
+import {ListScreen} from '../pages/list/list';
+import {CalendarScreen} from '../pages/calendar/calendar';
+import {AddScreen} from '../pages/add/add';
+import {EventScreen} from '../pages/event/event';
 import {TabsPage} from '../pages/tabs/tabs';
 
 import {StartupService} from '../services/startup.service';
@@ -34,9 +36,10 @@ export function createTranslateLoader(http: HttpClient) {
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    ListScreen,
+    CalendarScreen,
+    AddScreen,
+    EventScreen,
     TabsPage,
     HeaderComponent
   ],
@@ -57,19 +60,22 @@ export function createTranslateLoader(http: HttpClient) {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    ListScreen,
+    CalendarScreen,
+    AddScreen,
+    EventScreen,
     TabsPage,
     HeaderComponent
   ],
   providers: [
+    Camera,
     HttpClient,
     StatusBar,
     SplashScreen,
     StartupService,
     EventsService,
     LocalNotifications,
+    DatePipe,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

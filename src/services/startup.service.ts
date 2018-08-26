@@ -30,10 +30,10 @@ export class StartupService {
       }).then((events: Number) => {
         if (events) {
           this.localNotifications.schedule({
-            id: 1,
             text: 'Events saved: ' + events
           });
         }
+
         res();
       })
     });

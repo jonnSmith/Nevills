@@ -6,8 +6,12 @@
       <ion-input placeholder="Title" [(ngModel)]="event.title"></ion-input>
     </ion-item>
   </ion-list>
-
   <ion-list>
+    <ion-item>
+      <ion-textarea placeholder="Description" [(ngModel)]="event.description"></ion-textarea>
+    </ion-item>
+  </ion-list>
+  <ion-list class="form-list">
     <ion-item>
       <ion-label>{{'start' | translate}}</ion-label>
       <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.start"></ion-datetime>
@@ -16,7 +20,7 @@
       <ion-label>Ends</ion-label>
       <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.end"></ion-datetime>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="!event.allDay">
       <ion-label>{{'time' | translate}}</ion-label>
       <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.time"></ion-datetime>
     </ion-item>
@@ -28,9 +32,15 @@
       <ion-label>All day</ion-label>
       <ion-toggle [(ngModel)]="event.allDay"></ion-toggle>
     </ion-item>
+    <ion-card>
+      <img  *ngIf="event.photo" [src]="event.photo"/>
+      <ion-card-content>
+        <button ion-button color="secondary" full round (click)="takePhoto()">
+          <span *ngIf="!event.photo">Take Photo</span>
+          <span *ngIf="event.photo">Change Photo</span>
+        </button>
+      </ion-card-content>
+    </ion-card>
   </ion-list>
-  <ion-list>
-    <button ion-button full class="button-add-ball" (click)="addEvent()">{{'add' | translate}}</button>
-  </ion-list>
-
+  <button ion-button round full class="button-add-ball button-bottom" (click)="addEvent()">{{'add' | translate}}</button>
 </ion-content>
