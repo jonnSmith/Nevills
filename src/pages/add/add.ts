@@ -3,8 +3,7 @@ import {AlertController, Tabs} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {iEvent} from '../../interfaces/event.interface';
-
-const DUMMY_LIST_ITEM = '...';
+import {Config} from '../../config.service';
 
 @Component({
   selector: 'add',
@@ -15,22 +14,16 @@ export class AddScreen {
   public event: iEvent;
   private options: CameraOptions;
 
-  constructor(private camera: Camera,
+  constructor(private config: Config,
+              private camera: Camera,
               private eventService: EventsService,
               private alertCtrl: AlertController,
               private tabs:Tabs) {
     this.event = this.eventService.getDummy();
-    this.options = {
-      quality: 80,
-      saveToPhotoAlbum: false,
-      targetWidth: 500,
-      targetHeight: 500,
-      allowEdit: false
-    }
+    this.options = this.config.CAMERA_OPTIONS;
   }
 
   takePhoto() {
-
     this.camera.getPicture(this.options).then((imageData) => {
       console.log('imageData', imageData);
       this.event.photo = 'data:image/jpeg;base64,' + imageData;
@@ -61,7 +54,7 @@ export class AddScreen {
   }
 
   addListItem() {
-    this.event.list[this.event.list.length] = DUMMY_LIST_ITEM;
+    this.event.list[this.event.list.length] = this.config.DUMMY_LIST_ITEM;
   }
 
 }

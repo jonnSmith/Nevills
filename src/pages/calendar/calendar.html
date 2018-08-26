@@ -1,6 +1,6 @@
 <header-component [title]="'Calendar'"></header-component>
 <ion-content padding>
   <div *ngIf="calendarOptions">
-    <ng-fullcalendar #ucCalendar [options]="calendarOptions" [(eventsModel)]="events"></ng-fullcalendar>
+    <ng-fullcalendar #ucCalendar [options]="calendarOptions" [(eventsModel)]="events" (eventClick)="clickEvent($event.detail.event)"></ng-fullcalendar>
   </div>
 </ion-content>

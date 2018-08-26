@@ -3,16 +3,7 @@ import {AlertController, NavParams, NavController} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {iEvent} from '../../interfaces/event.interface';
-
-const DUMMY_LIST_ITEM = '...';
-
-const CAMERA_OPTIONS = {
-  quality: 80,
-  saveToPhotoAlbum: false,
-  targetWidth: 500,
-  targetHeight: 500,
-  allowEdit: false
-};
+import {Config} from '../../config.service';
 
 @Component({
   selector: 'event',
@@ -24,14 +15,14 @@ export class EventScreen implements OnInit {
   public edit = false;
   private options: CameraOptions;
 
-  constructor(
-    private camera: Camera,
-    private eventService: EventsService,
-    private alertCtrl: AlertController,
-    private params: NavParams,
-    private nav: NavController
+  constructor(private config: Config,
+              private camera: Camera,
+              private eventService: EventsService,
+              private alertCtrl: AlertController,
+              private params: NavParams,
+              private nav: NavController
   ) {
-    this.options = CAMERA_OPTIONS;
+    this.options = this.config.CAMERA_OPTIONS;
   }
 
   ngOnInit() {
@@ -41,6 +32,7 @@ export class EventScreen implements OnInit {
 
   takePhoto() {
     this.camera.getPicture(this.options).then((imageData) => {
+      console.log('imageData', imageData);
       this.event.photo = 'data:image/jpeg;base64,' + imageData;
     });
   }
@@ -73,7 +65,7 @@ export class EventScreen implements OnInit {
   }
 
   addListItem() {
-    this.event.list[this.event.list.length] = DUMMY_LIST_ITEM;
+    this.event.list[this.event.list.length] = this.config.DUMMY_LIST_ITEM;
   }
 
 }

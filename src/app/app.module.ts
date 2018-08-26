@@ -14,7 +14,7 @@ import {LocalNotifications} from '@ionic-native/local-notifications';
 import {Camera} from '@ionic-native/camera';
 import {FCM} from '@ionic-native/fcm';
 
-import {MyApp} from './app.component';
+import {NevillsApp} from './app.component';
 
 import {HeaderComponent} from '../components/header/header';
 
@@ -26,6 +26,7 @@ import {TabsPage} from '../pages/tabs/tabs';
 
 import {StartupService} from '../services/startup.service';
 import {EventsService} from '../services/events.service';
+import {Config} from '../config.service';
 
 /**
  * Translation setup
@@ -36,7 +37,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp,
+    NevillsApp,
     ListScreen,
     CalendarScreen,
     AddScreen,
@@ -55,12 +56,12 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(NevillsApp),
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    NevillsApp,
     ListScreen,
     CalendarScreen,
     AddScreen,
@@ -69,15 +70,16 @@ export function createTranslateLoader(http: HttpClient) {
     HeaderComponent
   ],
   providers: [
+    HttpClient,
     Camera,
     FCM,
-    HttpClient,
     StatusBar,
     SplashScreen,
-    StartupService,
-    EventsService,
     LocalNotifications,
     DatePipe,
+    StartupService,
+    EventsService,
+    Config,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

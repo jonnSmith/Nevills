@@ -7,8 +7,9 @@ import {TabsPage} from '../pages/tabs/tabs';
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp {
+export class NevillsApp {
   rootPage: any = TabsPage;
+  loaded = false;
 
   constructor(private statusBar: StatusBar,
               private splashScreen: SplashScreen,
@@ -16,6 +17,7 @@ export class MyApp {
     this.start.init().then( () => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.loaded = true;
     });
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "Nevills",
-  "app_id": "",
+  "app_id": "com.nevills.rememberball",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}

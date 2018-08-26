@@ -5,16 +5,16 @@ import {Platform} from 'ionic-angular';
 import {FCM} from '@ionic-native/fcm';
 import {LocalNotifications} from '@ionic-native/local-notifications';
 import {EventsService} from './events.service';
-
-const DEFAULT_LANGUAGE = 'ru';
-const STORAGE_FCM_TOKEN_KEY = "nvls_fcm_token";
+import {iEvent} from '../interfaces/event.interface';
+import {Config} from '../config.service';
 
 /**
  * Startup service.
  */
 @Injectable()
 export class StartupService {
-  constructor(private storage: Storage,
+  constructor(private config: Config,
+              private storage: Storage,
               private platform: Platform,
               private translate: TranslateService,
               private events: EventsService,
@@ -38,12 +38,12 @@ export class StartupService {
         }
       }).then((token) => {
         console.log('FCM', token);
-        this.storage.set(STORAGE_FCM_TOKEN_KEY, token);
+        this.storage.set(this.config.STORAGE_FCM_TOKEN_KEY, token);
         return this.events.init();
-      }).then((events: Number) => {
+      }).then((events: Array<iEvent>) => {
         if (events) {
           this.localNotifications.schedule({
-            text: 'Events saved: ' + events
+            text: 'Events saved: ' + events.length
           });
         }
         res();
@@ -53,13 +53,13 @@ export class StartupService {
   }
 
   /**
-   * Iniyialize tranlsations
+   * Initialize tranlsations
    * @returns {Promise<any>}
    */
   public initTranslation(): Promise<any> {
-    this.translate.addLangs(['en', 'ru']);
-    this.translate.setDefaultLang(DEFAULT_LANGUAGE);
-    return this.translate.use(DEFAULT_LANGUAGE).toPromise();
+    this.translate.addLangs(this.config.LANGUAGES);
+    this.translate.setDefaultLang(this.config.DEFAULT_LANGUAGE);
+    return this.translate.use(this.config.DEFAULT_LANGUAGE).toPromise();
   }
 
 }

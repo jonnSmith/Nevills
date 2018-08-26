@@ -1,0 +1,23 @@
+.scroll-content {
+  >* {
+    &:last-child {
+      margin-bottom:80px;
+    }
+  }
+}
+
+ng-fullcalendar {
+  .fc-header-toolbar {
+    margin-bottom: 0 !important;
+    .fc-center {
+      margin: 15px 0;
+    }
+  }
+  .fc-scroller {
+    overflow: visible;
+    height: 100% !important;
+  }
+}
+
+
+
