@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AlertController, NavParams} from 'ionic-angular';
+import {AlertController, NavParams, NavController} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {iEvent} from '../../interfaces/event.interface';
@@ -28,7 +28,8 @@ export class EventScreen implements OnInit {
     private camera: Camera,
     private eventService: EventsService,
     private alertCtrl: AlertController,
-    private params: NavParams
+    private params: NavParams,
+    private nav: NavController
   ) {
     this.options = CAMERA_OPTIONS;
   }
@@ -59,6 +60,7 @@ export class EventScreen implements OnInit {
           handler: () => {
             this.eventService.put(this.event);
             this.edit = false;
+            this.nav.pop();
           }
         }
       ]
