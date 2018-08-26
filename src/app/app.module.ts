@@ -12,6 +12,7 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {LocalNotifications} from '@ionic-native/local-notifications';
 import {Camera} from '@ionic-native/camera';
+import {FCM} from '@ionic-native/fcm';
 
 import {MyApp} from './app.component';
 
@@ -69,6 +70,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   providers: [
     Camera,
+    FCM,
     HttpClient,
     StatusBar,
     SplashScreen,

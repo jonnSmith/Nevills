@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Platform} from 'ionic-angular';
+import {FCM} from '@ionic-native/fcm';
 import {LocalNotifications} from '@ionic-native/local-notifications';
 import {EventsService} from './events.service';
 
@@ -14,7 +15,8 @@ export class StartupService {
   constructor(private platform: Platform,
               private translate: TranslateService,
               private events: EventsService,
-              private localNotifications: LocalNotifications) {
+              private localNotifications: LocalNotifications,
+              private fcm: FCM) {
   }
 
   /**
@@ -26,6 +28,13 @@ export class StartupService {
       this.platform.ready().then(() => {
         return this.initTranslation();
       }).then(() => {
+        if(window['cordova']) {
+          return this.fcm.getToken();
+        } else {
+          return new Promise ((res) => res('browser'));
+        }
+      }).then((token) => {
+        console.log('FCM', token);
         return this.events.init();
       }).then((events: Number) => {
         if (events) {
@@ -33,7 +42,6 @@ export class StartupService {
             text: 'Events saved: ' + events
           });
         }
-
         res();
       })
     });

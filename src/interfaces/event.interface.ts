@@ -8,4 +8,5 @@ export interface iEvent {
   allDay: boolean;
   repeat: boolean;
   photo: string;
+  list: Array<String>
 }

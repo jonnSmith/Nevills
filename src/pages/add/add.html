@@ -11,6 +11,12 @@
       <ion-textarea placeholder="Description" [(ngModel)]="event.description"></ion-textarea>
     </ion-item>
   </ion-list>
+  <ion-list>
+    <ng-template ngFor [ngForOf]="event.list" let-i="index">
+      <ion-input [(ngModel)]="event.list[i]"></ion-input>
+    </ng-template>
+    <button ion-button round full (click)="addListItem()">Add item to list</button>
+  </ion-list>
   <ion-list class="form-list">
     <ion-item>
       <ion-label>{{'start' | translate}}</ion-label>

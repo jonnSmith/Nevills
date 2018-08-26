@@ -17,6 +17,13 @@
     </ion-item>
   </ion-list>
   <ion-list>
+    <ng-template ngFor [ngForOf]="event.list" let-i="index">
+      <ion-input *ngIf="edit" [(ngModel)]="event.list[i]"></ion-input>
+      <ion-label *ngIf="!edit">{{event.list[i]}}</ion-label>
+    </ng-template>
+    <button *ngIf="edit" ion-button round full (click)="addListItem()">Add item to list</button>
+  </ion-list>
+  <ion-list>
     <ion-item>
       <ion-label>{{'start' | translate}}</ion-label>
       <ion-datetime *ngIf="edit" displayFormat="YYYY MMM DD " [(ngModel)]="event.start"></ion-datetime>

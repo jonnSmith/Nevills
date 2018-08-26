@@ -4,6 +4,8 @@ import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {iEvent} from '../../interfaces/event.interface';
 
+const DUMMY_LIST_ITEM = '...';
+
 const CAMERA_OPTIONS = {
   quality: 80,
   saveToPhotoAlbum: false,
@@ -66,6 +68,10 @@ export class EventScreen implements OnInit {
 
   setEdit() {
     this.edit = true;
+  }
+
+  addListItem() {
+    this.event.list[this.event.list.length] = DUMMY_LIST_ITEM;
   }
 
 }
