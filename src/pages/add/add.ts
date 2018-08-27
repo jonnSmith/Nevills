@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, Tabs} from 'ionic-angular';
+import {AlertController, LoadingController, Tabs} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {iEvent} from '../../interfaces/event.interface';
@@ -18,6 +18,7 @@ export class AddScreen {
               private camera: Camera,
               private eventService: EventsService,
               private alertCtrl: AlertController,
+              private loading: LoadingController,
               private tabs:Tabs) {
     this.event = this.eventService.getDummy();
     this.options = this.config.CAMERA_OPTIONS;
@@ -25,8 +26,7 @@ export class AddScreen {
 
   takePhoto() {
     this.camera.getPicture(this.options).then((imageData) => {
-      console.log('imageData', imageData);
-      this.event.photo = 'data:image/jpeg;base64,' + imageData;
+      this.event.photo = imageData;
     });
   }
 
@@ -43,9 +43,15 @@ export class AddScreen {
         {
           text: 'Save',
           handler: () => {
-            this.event = this.eventService.getDummy();
-            this.eventService.push(this.event);
-            this.tabs.select(1);
+            let loader = this.loading.create({
+              content: 'Please wait...'
+            });
+            loader.present();
+            this.eventService.push(this.event).then( _ => {
+              this.event = this.eventService.getDummy();
+              loader.dismiss();
+              this.tabs.select(1);
+            });
           }
         }
       ]

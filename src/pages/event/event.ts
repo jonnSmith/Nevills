@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AlertController, NavParams, NavController} from 'ionic-angular';
+import {AlertController, NavParams, NavController, LoadingController} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {iEvent} from '../../interfaces/event.interface';
@@ -15,7 +15,8 @@ export class EventScreen implements OnInit {
   public edit = false;
   private options: CameraOptions;
 
-  constructor(private config: Config,
+  constructor(private loading: LoadingController,
+              private config: Config,
               private camera: Camera,
               private eventService: EventsService,
               private alertCtrl: AlertController,
@@ -32,8 +33,7 @@ export class EventScreen implements OnInit {
 
   takePhoto() {
     this.camera.getPicture(this.options).then((imageData) => {
-      console.log('imageData', imageData);
-      this.event.photo = 'data:image/jpeg;base64,' + imageData;
+      this.event.photo = imageData;
     });
   }
 
@@ -50,9 +50,15 @@ export class EventScreen implements OnInit {
         {
           text: 'Update',
           handler: () => {
-            this.eventService.put(this.event);
-            this.edit = false;
-            this.nav.pop();
+            let loader = this.loading.create({
+              content: 'Please wait...'
+            });
+            loader.present();
+            this.eventService.put(this.event).then( _ => {
+              this.edit = false;
+              loader.dismiss();
+              this.nav.pop();
+            });
           }
         }
       ]

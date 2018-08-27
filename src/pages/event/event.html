@@ -18,8 +18,10 @@
   </ion-list>
   <ion-list>
     <ng-template ngFor [ngForOf]="event.list" let-i="index">
-      <ion-input *ngIf="edit" [(ngModel)]="event.list[i]"></ion-input>
-      <ion-label *ngIf="!edit">{{event.list[i]}}</ion-label>
+      <ion-item>
+        <ion-input *ngIf="edit" [(ngModel)]="event.list[i]"></ion-input>
+        <ion-label *ngIf="!edit">{{i+1}}) {{event.list[i]}}</ion-label>
+      </ion-item>
     </ng-template>
     <button *ngIf="edit" ion-button round full (click)="addListItem()">Add item to list</button>
   </ion-list>

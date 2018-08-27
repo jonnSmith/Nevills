@@ -5,7 +5,9 @@
       <ion-avatar item-start>
         <img [src]="e.photo">
       </ion-avatar>
-      <span>{{e.title}} {{e.start}}: {{e.time}} - {{e.end}}</span>
+      <h2>{{e.title}}</h2>
+      <h3>{{e.start}} {{e.time}} - {{e.end}}</h3>
+      <p>{{e.description}}</p>
       <ion-icon name="ios-create-outline" color="primary" item-end (click)="openEvent(e.id)"></ion-icon>
       <ion-icon name="ios-close-circle" color="danger" item-end (click)="popEvent(e)"></ion-icon>
     </ion-item>

@@ -13,6 +13,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {LocalNotifications} from '@ionic-native/local-notifications';
 import {Camera} from '@ionic-native/camera';
 import {FCM} from '@ionic-native/fcm';
+import {File} from '@ionic-native/file';
 
 import {NevillsApp} from './app.component';
 
@@ -73,6 +74,7 @@ export function createTranslateLoader(http: HttpClient) {
     HttpClient,
     Camera,
     FCM,
+    File,
     StatusBar,
     SplashScreen,
     LocalNotifications,

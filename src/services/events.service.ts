@@ -1,11 +1,12 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import {DatePipe} from '@angular/common'
 import {Storage} from '@ionic/storage';
+import {File} from '@ionic-native/file';
 import {iEvent} from '../interfaces/event.interface';
 import {Config} from '../config.service';
 
 /**
- * Startup service.
+ * Events service.
  */
 @Injectable()
 export class EventsService {
@@ -15,18 +16,20 @@ export class EventsService {
 
   constructor(private config: Config,
               private storage: Storage,
-              private datepipe: DatePipe
-  ) {
+              private file: File,
+              private datepipe: DatePipe) {
   }
 
   // Generate random id based on timestamp, random 4* digit and string shuffle
   static generateRandomId() {
     return parseInt(
       ((new Date).getTime() + Math.floor(1000 + Math.random() * 9000))
-      .toString()
-      .split('')
-      .sort(function(){return 0.5-Math.random()})
-      .join(''));
+        .toString()
+        .split('')
+        .sort(function () {
+          return 0.5 - Math.random()
+        })
+        .join(''));
   }
 
   /**
@@ -44,36 +47,49 @@ export class EventsService {
   }
 
   push(event: iEvent) {
-    // Add random
-    const evt = {
-      ...Object.assign({}, event),
-      ...{ id: EventsService.generateRandomId()}
-    };
-    evt.list = evt.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
-    this.events.push(evt);
-    console.log('this.events', this.events);
-    this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
-    this.onEventsChange.emit(this.events);
+    return new Promise((res) => {
+      // Add random
+      const evt = {
+        ...Object.assign({}, event),
+        ...{id: EventsService.generateRandomId()}
+      };
+      evt.list = evt.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
+      this.storage.get(this.config.STORAGE_FCM_TOKEN_KEY).then((token: string) => {
+        evt.token = token;
+        this.events.push(evt);
+        console.log('this.events', this.events);
+        this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
+        this.onEventsChange.emit(this.events);
+        res();
+      });
+    });
   }
 
   pop(id: Number) {
-    console.log('this.events', this.events);
-    this.events = this.events.filter(e => e.id !== id);
-    console.log('this.events', this.events);
-    this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
-    this.onEventsChange.emit(this.events);
+    return new Promise((res) => {
+      this.events = this.events.filter(e => e.id !== id);
+      this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
+      this.onEventsChange.emit(this.events);
+      res();
+    });
   }
 
   put(event: iEvent) {
-    this.events = this.events.map((e) => {
-      if(e.id === event.id) {
-        Object.assign(e, event);
-      }
-      return e;
+    return new Promise((res) => {
+      this.storage.get(this.config.STORAGE_FCM_TOKEN_KEY).then((token: string) => {
+        this.events = this.events.map((e) => {
+          if (e.id === event.id) {
+            event.token = token;
+            event.list = event.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
+            Object.assign(e, event);
+          }
+          return e;
+        });
+        this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
+        this.onEventsChange.emit(this.events);
+        res();
+      });
     });
-    if(!this.events) this.events = [];
-    this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
-    this.onEventsChange.emit(this.events);
   }
 
   get() {
@@ -91,11 +107,12 @@ export class EventsService {
       title: 'New ball',
       description: 'Add event description...',
       start: this.datepipe.transform(date, 'yyyy-MM-dd'),
-      end: this.datepipe.transform(date.setDate(date.getDate()+1), 'yyyy-MM-dd'),
+      end: this.datepipe.transform(date.setDate(date.getDate() + 1), 'yyyy-MM-dd'),
       time: this.datepipe.transform(date, 'HH:mm'),
       allDay: false,
       repeat: true,
       list: ['Add item to list'],
+      token: '',
       photo: this.config.DUMMY_PHOTO_HASH
     };
   }

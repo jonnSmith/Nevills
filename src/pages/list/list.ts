@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {EventsService} from '../../services/events.service';
-import {AlertController, NavController} from 'ionic-angular';
+import {AlertController, NavController, LoadingController} from 'ionic-angular';
 import {iEvent} from '../../interfaces/event.interface';
 import {EventScreen} from '../event/event'
 
@@ -12,10 +12,10 @@ export class ListScreen {
 
   public events:Array<iEvent> = [];
 
-  constructor(
-    private eventService: EventsService,
-    private alertCtrl: AlertController,
-    private nav: NavController
+  constructor(private loading: LoadingController,
+              private eventService: EventsService,
+              private alertCtrl: AlertController,
+              private nav: NavController
   ) {
     this.events = this.eventService.get();
     this.eventService.onEventsChange.subscribe((evts) => {
@@ -36,7 +36,13 @@ export class ListScreen {
         {
           text: 'Delete',
           handler: () => {
-            this.eventService.pop(event.id);
+            let loader = this.loading.create({
+              content: 'Please wait...'
+            });
+            loader.present();
+            this.eventService.pop(event.id).then( _ => {
+              loader.dismiss();
+            });
           }
         }
       ]
@@ -44,26 +50,6 @@ export class ListScreen {
     prompt.present();
   }
 
-  saveEvent(event: iEvent) {
-    const prompt = this.alertCtrl.create({
-      title: 'Update event '+event.title+ '?',
-      message: 'Are you sure?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-          }
-        },
-        {
-          text: 'Update',
-          handler: () => {
-            this.eventService.put(event);
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
 
   openEvent(id: Number) {
     this.nav.push(EventScreen, { id: id });
