@@ -39,14 +39,14 @@
       <ion-toggle [(ngModel)]="event.allDay"></ion-toggle>
     </ion-item>
     <ion-card>
-      <img  *ngIf="event.photo" [src]="event.photo"/>
+      <img [src]="event.photo ? event.photo : dummyPhoto"/>
       <ion-card-content>
-        <button ion-button color="secondary" full round (click)="takePhoto()">
+        <button ion-button color="{{event.photo ? 'primary' : 'secondary'}}" full round (click)="takePhoto()">
           <span *ngIf="!event.photo">Take Photo</span>
           <span *ngIf="event.photo">Change Photo</span>
         </button>
       </ion-card-content>
     </ion-card>
   </ion-list>
-  <button ion-button round full class="button-add-ball button-bottom" (click)="addEvent()">{{'add' | translate}}</button>
+  <button ion-button round full color="secondary" class="button-add-ball button-bottom" (click)="addEvent()">{{'add' | translate}}</button>
 </ion-content>

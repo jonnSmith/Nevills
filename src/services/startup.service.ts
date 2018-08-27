@@ -5,6 +5,7 @@ import {Platform} from 'ionic-angular';
 import {FCM} from '@ionic-native/fcm';
 import {LocalNotifications} from '@ionic-native/local-notifications';
 import {EventsService} from './events.service';
+import {NotificationsService} from './notifications.service'
 import {iEvent} from '../interfaces/event.interface';
 import {Config} from '../config.service';
 
@@ -18,6 +19,7 @@ export class StartupService {
               private platform: Platform,
               private translate: TranslateService,
               private events: EventsService,
+              private notifications: NotificationsService,
               private localNotifications: LocalNotifications,
               private fcm: FCM) {
   }
@@ -29,6 +31,9 @@ export class StartupService {
   public init(): Promise<any> {
     return new Promise( (res) => {
       this.platform.ready().then(() => {
+        if(window['cordova']) {
+          this.notifications.initClick();
+        }
         return this.initTranslation();
       }).then(() => {
         if(window['cordova']) {
@@ -41,11 +46,7 @@ export class StartupService {
         this.storage.set(this.config.STORAGE_FCM_TOKEN_KEY, token);
         return this.events.init();
       }).then((events: Array<iEvent>) => {
-        if (events) {
-          this.localNotifications.schedule({
-            text: 'Events saved: ' + events.length
-          });
-        }
+        this.notifications.initInterval();
         res();
       })
     });

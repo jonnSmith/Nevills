@@ -11,6 +11,7 @@ import {Config} from '../../config.service';
 })
 export class AddScreen {
 
+  public dummyPhoto: String;
   public event: iEvent;
   private options: CameraOptions;
 
@@ -21,6 +22,7 @@ export class AddScreen {
               private loading: LoadingController,
               private tabs:Tabs) {
     this.event = this.eventService.getDummy();
+    this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
   }
 

@@ -2,6 +2,21 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class Config {
+  public backend = {
+    host: "http://localhost:8080",
+    cache_key: 'nevills-cache',
+    api: {
+      post: "/events/post",
+      del: "/events/delete"
+    },
+    params: {
+      appId: 'com.nevills.rememberball'
+    },
+    headers: {
+      'app-id': 'com.nevills.rememberball'
+    }
+  };
+  public NOTIFICATIONS_INTERVAL = 60000;
   public DEFAULT_LANGUAGE = "ru";
   public LANGUAGES = ['en', 'ru'];
   public EVENTS_STORAGE_KEY = "nvls_evts";
@@ -19,7 +34,7 @@ export class Config {
     header: {
       left: 'prev,next',
       center: 'title',
-      right: 'month,agendaDay,listMonth',
+      right: 'month,listMonth',
     }
   };
   public DUMMY_LIST_ITEM = '...';

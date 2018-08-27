@@ -1,6 +1,6 @@
-<header-component [title]="(edit ? 'Edit ball ' : '') + event.title"></header-component>
+<header-component [title]="(edit ? 'Edit ' : '') + event.title"></header-component>
 <ion-content padding>
-  <button *ngIf="!edit" outline ion-button icon-start color="secondary" (click)="setEdit()">
+  <button *ngIf="!edit" outline ion-button icon-start color="primary" (click)="setEdit()">
     <ion-icon name="md-create"></ion-icon>
     Edit
   </button>
@@ -52,14 +52,14 @@
       <ion-label *ngIf="!edit">{{event.allDay}}</ion-label>
     </ion-item>
     <ion-card>
-      <img  *ngIf="event.photo" [src]="event.photo"/>
+      <img [src]="event.photo ? event.photo : dummyPhoto"/>
       <ion-card-content *ngIf="edit">
-        <button ion-button color="secondary" full round (click)="takePhoto()">
+        <button ion-button color="{{event.photo ? 'primary' : 'secondary'}}" full round (click)="takePhoto()">
           <span *ngIf="!event.photo">Take Photo</span>
           <span *ngIf="event.photo">Change Photo</span>
         </button>
       </ion-card-content>
     </ion-card>
   </ion-list>
-  <button *ngIf="edit" ion-button full class="button-add-ball button-bottom" (click)="saveEvent()">{{'save' | translate}}</button>
+  <button *ngIf="edit" color="primary" ion-button round full class="button-add-ball button-bottom" (click)="saveEvent()">{{'save' | translate}}</button>
 </ion-content>

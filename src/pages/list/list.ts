@@ -3,6 +3,7 @@ import {EventsService} from '../../services/events.service';
 import {AlertController, NavController, LoadingController} from 'ionic-angular';
 import {iEvent} from '../../interfaces/event.interface';
 import {EventScreen} from '../event/event'
+import {Config} from '../../config.service';
 
 @Component({
   selector: 'list',
@@ -10,14 +11,17 @@ import {EventScreen} from '../event/event'
 })
 export class ListScreen {
 
+  public dummyPhoto: String;
   public events:Array<iEvent> = [];
 
   constructor(private loading: LoadingController,
+              private config: Config,
               private eventService: EventsService,
               private alertCtrl: AlertController,
               private nav: NavController
   ) {
     this.events = this.eventService.get();
+    this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.eventService.onEventsChange.subscribe((evts) => {
       this.events = evts;
     });

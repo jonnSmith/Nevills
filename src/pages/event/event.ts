@@ -11,6 +11,7 @@ import {Config} from '../../config.service';
 })
 export class EventScreen implements OnInit {
 
+  public dummyPhoto: String;
   public event: iEvent;
   public edit = false;
   private options: CameraOptions;
@@ -23,6 +24,7 @@ export class EventScreen implements OnInit {
               private params: NavParams,
               private nav: NavController
   ) {
+    this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
   }
 

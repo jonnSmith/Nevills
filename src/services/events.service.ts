@@ -3,6 +3,7 @@ import {DatePipe} from '@angular/common'
 import {Storage} from '@ionic/storage';
 import {File} from '@ionic-native/file';
 import {iEvent} from '../interfaces/event.interface';
+import {HttpService} from './http.service'
 import {Config} from '../config.service';
 
 /**
@@ -16,6 +17,7 @@ export class EventsService {
 
   constructor(private config: Config,
               private storage: Storage,
+              private http: HttpService,
               private file: File,
               private datepipe: DatePipe) {
   }
@@ -56,21 +58,34 @@ export class EventsService {
       evt.list = evt.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
       this.storage.get(this.config.STORAGE_FCM_TOKEN_KEY).then((token: string) => {
         evt.token = token;
-        this.events.push(evt);
-        console.log('this.events', this.events);
-        this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
-        this.onEventsChange.emit(this.events);
-        res();
+        this.http.post(this.config.backend.api.post, evt).then( _ => {
+          this.events.push(evt);
+          console.log('this.events', this.events);
+          this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
+          this.onEventsChange.emit(this.events);
+          res();
+        }, (err) => {
+          this.events.push(evt);
+          console.log('http error', err);
+          this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
+          this.onEventsChange.emit(this.events);
+          res();
+        });
       });
     });
   }
 
   pop(id: Number) {
     return new Promise((res) => {
-      this.events = this.events.filter(e => e.id !== id);
-      this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
-      this.onEventsChange.emit(this.events);
-      res();
+      this.http.del(this.config.backend.api.del, {id: id}).then( () => {
+        this.events = this.events.filter(e => e.id !== id);
+        this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
+        this.onEventsChange.emit(this.events);
+        res();
+      }, (err) => {
+        console.log('http error', err);
+        res();
+      });
     });
   }
 
@@ -113,7 +128,7 @@ export class EventsService {
       repeat: true,
       list: ['Add item to list'],
       token: '',
-      photo: this.config.DUMMY_PHOTO_HASH
+      photo: null
     };
   }
 
