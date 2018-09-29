@@ -55,7 +55,7 @@ export class ListScreen {
   }
 
 
-  openEvent(id: Number) {
+  openEvent(id: String) {
     this.nav.push(EventScreen, { id: id });
   }
 

@@ -6,8 +6,7 @@ export class Config {
     host: "http://localhost:8080",
     cache_key: 'nevills-cache',
     api: {
-      post: "/events/post",
-      del: "/events/delete"
+      layer: "/events/"
     },
     params: {
       appId: 'com.nevills.rememberball'

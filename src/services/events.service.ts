@@ -24,14 +24,15 @@ export class EventsService {
 
   // Generate random id based on timestamp, random 4* digit and string shuffle
   static generateRandomId() {
-    return parseInt(
-      ((new Date).getTime() + Math.floor(1000 + Math.random() * 9000))
-        .toString()
-        .split('')
-        .sort(function () {
-          return 0.5 - Math.random()
-        })
-        .join(''));
+    // return parseInt(
+    //   ((new Date).getTime() + Math.floor(1000 + Math.random() * 9000))
+    //     .toString()
+    //     .split('')
+    //     .sort(function () {
+    //       return 0.5 - Math.random()
+    //     })
+    //     .join(''));
+    return (new Date).getTime().toString();
   }
 
   /**
@@ -58,26 +59,23 @@ export class EventsService {
       evt.list = evt.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
       this.storage.get(this.config.STORAGE_FCM_TOKEN_KEY).then((token: string) => {
         evt.token = token;
-        this.http.post(this.config.backend.api.post, evt).then( _ => {
+        evt.id = evt.id + '_' + evt.token;
+        this.http.post(this.config.backend.host + this.config.backend.api.layer, evt).then( _ => {
           this.events.push(evt);
-          console.log('this.events', this.events);
           this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
           this.onEventsChange.emit(this.events);
           res();
         }, (err) => {
-          this.events.push(evt);
           console.log('http error', err);
-          this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
-          this.onEventsChange.emit(this.events);
           res();
         });
       });
     });
   }
 
-  pop(id: Number) {
+  pop(id: String) {
     return new Promise((res) => {
-      this.http.del(this.config.backend.api.del, {id: id}).then( () => {
+      this.http.del(this.config.backend.host + this.config.backend.api.layer + id, {id: id}).then( _ => {
         this.events = this.events.filter(e => e.id !== id);
         this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
         this.onEventsChange.emit(this.events);
@@ -92,17 +90,22 @@ export class EventsService {
   put(event: iEvent) {
     return new Promise((res) => {
       this.storage.get(this.config.STORAGE_FCM_TOKEN_KEY).then((token: string) => {
-        this.events = this.events.map((e) => {
-          if (e.id === event.id) {
-            event.token = token;
-            event.list = event.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
-            Object.assign(e, event);
-          }
-          return e;
+        this.http.post(this.config.backend.host + this.config.backend.api.layer, event).then( _ => {
+          this.events = this.events.map((e) => {
+            if (e.id === event.id) {
+              event.token = token;
+              event.list = event.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
+              Object.assign(e, event);
+            }
+            return e;
+          });
+          this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
+          this.onEventsChange.emit(this.events);
+          res();
+        }, (err) => {
+          console.log('http error', err);
+          res();
         });
-        this.storage.set(this.config.EVENTS_STORAGE_KEY, this.events);
-        this.onEventsChange.emit(this.events);
-        res();
       });
     });
   }
@@ -111,14 +114,14 @@ export class EventsService {
     return this.events;
   }
 
-  getEvent(id: Number) {
+  getEvent(id: String) {
     return this.events.find((e) => e.id === id);
   }
 
   getDummy() {
     const date = new Date();
     return {
-      id: 0,
+      id: date.getTime().toString(),
       title: 'New ball',
       description: 'Add event description...',
       start: this.datepipe.transform(date, 'yyyy-MM-dd'),
@@ -127,7 +130,7 @@ export class EventsService {
       allDay: false,
       repeat: true,
       list: ['Add item to list'],
-      token: '',
+      token: 'browser',
       photo: null
     };
   }

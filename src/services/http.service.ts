@@ -32,7 +32,8 @@ export class HttpService {
    * @returns {Promise<any>}
    */
   public post(url: string, body: any, headers?: any, params?: any): Promise<any> {
-    return this.request(url, headers, params, 'post', body);
+    // return this.request(url, headers, params, 'post', body);
+    return this._http.post(url, body).toPromise();
   }
 
   /**
@@ -43,7 +44,8 @@ export class HttpService {
    * @returns {Promise<any>}
    */
   public del(url: string, params?: any, headers?: any): Promise<any> {
-    return this.request(url, params, headers, 'delete');
+    // return this.request(url, params, headers, 'delete');
+    return this._http.delete(url).toPromise();
   }
 
   /**
@@ -67,11 +69,6 @@ export class HttpService {
 
     // Extend with default headers
     const h = Object.assign({}, this.config.backend.headers, headers || {});
-
-    // Set showroom code
-    if (localStorage.showroomCode) {
-      h.tenant = localStorage.showroomCode;
-    }
 
     return new HttpHeaders(h);
   }
