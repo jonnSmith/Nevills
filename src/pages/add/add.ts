@@ -53,6 +53,8 @@ export class AddScreen {
               this.event = this.eventService.getDummy();
               loader.dismiss();
               this.tabs.select(1);
+            }, (err) => {
+              console.log('add event error', err);
             });
           }
         }

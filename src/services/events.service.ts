@@ -50,7 +50,7 @@ export class EventsService {
   }
 
   push(event: iEvent) {
-    return new Promise((res) => {
+    return new Promise((res, rej) => {
       // Add random
       const evt = {
         ...Object.assign({}, event),
@@ -66,8 +66,7 @@ export class EventsService {
           this.onEventsChange.emit(this.events);
           res();
         }, (err) => {
-          console.log('http error', err);
-          res();
+          rej(err);
         });
       });
     });
