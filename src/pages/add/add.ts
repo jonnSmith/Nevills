@@ -27,12 +27,13 @@ export class AddScreen {
     this.event = this.eventService.getDummy();
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
-    setInterval(() => {
-      const date = new Date();
-      this.event.start = this.datepipe.transform(date, 'yyyy-MM-dd');
-      this.event.time = this.datepipe.transform(date, 'HH:mm');
-      this.cd.detectChanges();
-    }, 30000);
+  }
+
+  ionViewWillEnter() {
+    const date = new Date();
+    this.event.start = this.datepipe.transform(date, 'yyyy-MM-dd');
+    this.event.time = this.datepipe.transform(date, 'HH:mm');
+    this.cd.detectChanges();
   }
 
   takePhoto() {

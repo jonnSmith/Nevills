@@ -2,7 +2,7 @@ import {Component, ChangeDetectorRef} from '@angular/core';
 import {EventsService} from '../../services/events.service';
 import {AlertController, NavController, LoadingController} from 'ionic-angular';
 import {iEvent} from '../../interfaces/event.interface';
-import {EventScreen} from '../event/event'
+import {EventScreen} from '../event/event';
 import {Config} from '../../config.service';
 
 @Component({

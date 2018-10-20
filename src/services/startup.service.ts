@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Storage} from '@ionic/storage';
 import {Platform} from 'ionic-angular';
+import {EventsService} from "./events.service";
 import {FCM} from '@ionic-native/fcm';
-import {NotificationsService} from './notifications.service';
 import {Config} from '../config.service';
 
 /**
@@ -12,10 +11,9 @@ import {Config} from '../config.service';
 @Injectable()
 export class StartupService {
   constructor(private config: Config,
-              private storage: Storage,
               private platform: Platform,
               private translate: TranslateService,
-              private notifications: NotificationsService,
+              private events: EventsService,
               private fcm: FCM) {
   }
 
@@ -26,9 +24,6 @@ export class StartupService {
   public init(): Promise<any> {
     return new Promise( (res) => {
       this.platform.ready().then(() => {
-        if(window['cordova']) {
-          this.notifications.initClick();
-        }
         return this.initTranslation();
       }).then(() => {
         if(window['cordova']) {
@@ -36,12 +31,14 @@ export class StartupService {
         } else {
           return new Promise ((res) => res('browser'));
         }
-      }).then((token) => {
+      }).then((token: string) => {
         console.log('FCM', token);
-        return this.storage.set(this.config.STORAGE_FCM_TOKEN_KEY, token);
-      }).then ( _ => {
+        localStorage.setItem(this.config.STORAGE_FCM_TOKEN_KEY, token);
+        return this.events.init();
+      }).then( _ => {
         res();
-      });
+      })
+
     });
 
   }

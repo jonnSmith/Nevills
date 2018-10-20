@@ -3,8 +3,8 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class Config {
   public backend = {
-    // host: "https://nevills.herokuapp.com",
-    host: "http://localhost:8080",
+    host: "https://nevills.herokuapp.com",
+    // host: "http://localhost:8080",
     cache_key: 'nevills-cache',
     api: {
       layer: "/events/"
@@ -20,6 +20,7 @@ export class Config {
   public LANGUAGES = ['en', 'ru'];
   public EVENTS_STORAGE_KEY = "nvls_evts";
   public STORAGE_FCM_TOKEN_KEY = "nvls_fcm_token";
+  public filename = "events.nvls";
   public CAMERA_OPTIONS = {
     quality: 80,
     saveToPhotoAlbum: false,

@@ -27,7 +27,6 @@ import {TabsPage} from '../pages/tabs/tabs';
 
 import {StartupService} from '../services/startup.service';
 import {EventsService} from '../services/events.service';
-import {NotificationsService} from '../services/notifications.service';
 import {HttpService} from '../services/http.service';
 import {Config} from '../config.service';
 
@@ -86,7 +85,6 @@ export function createTranslateLoader(http: HttpClient) {
     DatePipe,
     StartupService,
     EventsService,
-    NotificationsService,
     HttpService,
     Config,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
