@@ -31,6 +31,8 @@ import {NotificationsService} from '../services/notifications.service';
 import {HttpService} from '../services/http.service';
 import {Config} from '../config.service';
 
+import {OutdatedPipe} from '../pipes/outdated';
+
 /**
  * Translation setup
  */
@@ -46,7 +48,8 @@ export function createTranslateLoader(http: HttpClient) {
     AddScreen,
     EventScreen,
     TabsPage,
-    HeaderComponent
+    HeaderComponent,
+    OutdatedPipe
   ],
   imports: [
     BrowserModule,

@@ -5,8 +5,8 @@
       <ion-avatar item-start>
         <img [src]="e.photo ? e.photo : dummyPhoto">
       </ion-avatar>
-      <h2>{{e.title}}</h2>
-      <h3>{{e.start}} {{e.time}} - {{e.end}}</h3>
+      <h2>{{e.title}} <span *ngIf="e.datestamp | outdated: datestamp">(outdated)</span></h2>
+      <h3>{{e.start}} {{e.time}}</h3>
       <p>{{e.description}}</p>
       <ion-icon name="ios-create-outline" color="primary" item-end (click)="openEvent(e.id)"></ion-icon>
       <ion-icon name="ios-close-circle" color="danger" item-end (click)="popEvent(e)"></ion-icon>

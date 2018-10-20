@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {DatePipe} from '@angular/common'
 import {AlertController, LoadingController, Tabs} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
@@ -22,10 +22,17 @@ export class AddScreen {
               private alertCtrl: AlertController,
               private loading: LoadingController,
               private tabs:Tabs,
-              private datepipe: DatePipe) {
+              private datepipe: DatePipe,
+              private cd: ChangeDetectorRef) {
     this.event = this.eventService.getDummy();
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
+    setInterval(() => {
+      const date = new Date();
+      this.event.start = this.datepipe.transform(date, 'yyyy-MM-dd');
+      this.event.time = this.datepipe.transform(date, 'HH:mm');
+      this.cd.detectChanges();
+    }, 30000);
   }
 
   takePhoto() {
@@ -56,6 +63,7 @@ export class AddScreen {
               loader.dismiss();
               this.tabs.select(1);
             }, (err) => {
+              loader.dismiss();
               console.log('add event error', err);
             });
           }
@@ -63,12 +71,6 @@ export class AddScreen {
       ]
     });
     prompt.present();
-  }
-
-  ionViewWillEnter() {
-    const date = new Date();
-    this.event.start = this.datepipe.transform(date, 'yyyy-MM-dd');
-    this.event.time = this.datepipe.transform(date, 'HH:mm');
   }
 
   addListItem() {

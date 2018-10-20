@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ChangeDetectorRef} from '@angular/core';
 import {EventsService} from '../../services/events.service';
 import {AlertController, NavController, LoadingController} from 'ionic-angular';
 import {iEvent} from '../../interfaces/event.interface';
@@ -13,18 +13,28 @@ export class ListScreen {
 
   public dummyPhoto: String;
   public events:Array<iEvent> = [];
+  public datestamp = new Date().setSeconds(0,0);
 
   constructor(private loading: LoadingController,
               private config: Config,
               private eventService: EventsService,
               private alertCtrl: AlertController,
-              private nav: NavController
+              private nav: NavController,
+              private cd: ChangeDetectorRef
   ) {
-    this.events = this.eventService.get();
+    this.events = this.eventService.get().sort((a: iEvent, b: iEvent) => {
+      if (parseInt(a.datestamp) > parseInt(b.datestamp)) return -1;
+      else if (parseInt(a.datestamp) < parseInt(b.datestamp)) return 1;
+      else return 0;
+    });
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.eventService.onEventsChange.subscribe((evts) => {
       this.events = evts;
     });
+    setInterval(() => {
+      this.datestamp = new Date().setSeconds(0,0);
+      this.cd.detectChanges();
+    }, 30000);
   }
 
   popEvent(event: iEvent) {
@@ -53,7 +63,6 @@ export class ListScreen {
     });
     prompt.present();
   }
-
 
   openEvent(id: String) {
     this.nav.push(EventScreen, { id: id });

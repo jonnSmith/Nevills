@@ -3,8 +3,8 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class Config {
   public backend = {
-    host: "https://nevills.herokuapp.com/",
-    // host: "http://localhost:8080",
+    // host: "https://nevills.herokuapp.com",
+    host: "http://localhost:8080",
     cache_key: 'nevills-cache',
     api: {
       layer: "/events/"
@@ -16,7 +16,6 @@ export class Config {
       'app-id': 'com.nevills.rememberball'
     }
   };
-  public NOTIFICATIONS_INTERVAL = 60000;
   public DEFAULT_LANGUAGE = "ru";
   public LANGUAGES = ['en', 'ru'];
   public EVENTS_STORAGE_KEY = "nvls_evts";
