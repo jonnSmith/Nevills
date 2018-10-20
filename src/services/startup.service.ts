@@ -3,10 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Storage} from '@ionic/storage';
 import {Platform} from 'ionic-angular';
 import {FCM} from '@ionic-native/fcm';
-import {LocalNotifications} from '@ionic-native/local-notifications';
-import {EventsService} from './events.service';
-import {NotificationsService} from './notifications.service'
-import {iEvent} from '../interfaces/event.interface';
+import {NotificationsService} from './notifications.service';
 import {Config} from '../config.service';
 
 /**
@@ -18,9 +15,7 @@ export class StartupService {
               private storage: Storage,
               private platform: Platform,
               private translate: TranslateService,
-              private events: EventsService,
               private notifications: NotificationsService,
-              private localNotifications: LocalNotifications,
               private fcm: FCM) {
   }
 
@@ -44,9 +39,6 @@ export class StartupService {
       }).then((token) => {
         console.log('FCM', token);
         this.storage.set(this.config.STORAGE_FCM_TOKEN_KEY, token);
-        return this.events.init();
-      }).then((events: Array<iEvent>) => {
-        this.notifications.initInterval();
         res();
       })
     });

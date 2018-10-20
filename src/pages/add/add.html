@@ -23,20 +23,8 @@
       <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.start"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-label>Ends</ion-label>
-      <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.end"></ion-datetime>
-    </ion-item>
-    <ion-item *ngIf="!event.allDay">
       <ion-label>{{'time' | translate}}</ion-label>
       <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.time"></ion-datetime>
-    </ion-item>
-    <ion-item>
-      <ion-label>Repeat</ion-label>
-      <ion-toggle [(ngModel)]="event.repeat"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>All day</ion-label>
-      <ion-toggle [(ngModel)]="event.allDay"></ion-toggle>
     </ion-item>
     <ion-card>
       <img [src]="event.photo ? event.photo : dummyPhoto"/>

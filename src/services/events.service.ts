@@ -1,7 +1,6 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import {DatePipe} from '@angular/common'
 import {Storage} from '@ionic/storage';
-import {File} from '@ionic-native/file';
 import {iEvent} from '../interfaces/event.interface';
 import {HttpService} from './http.service'
 import {Config} from '../config.service';
@@ -18,7 +17,6 @@ export class EventsService {
   constructor(private config: Config,
               private storage: Storage,
               private http: HttpService,
-              private file: File,
               private datepipe: DatePipe) {
   }
 
@@ -124,10 +122,7 @@ export class EventsService {
       title: 'New ball',
       description: 'Add event description...',
       start: this.datepipe.transform(date, 'yyyy-MM-dd'),
-      end: this.datepipe.transform(date.setDate(date.getDate() + 1), 'yyyy-MM-dd'),
       time: this.datepipe.transform(date, 'HH:mm'),
-      allDay: false,
-      repeat: true,
       list: ['Add item to list'],
       token: 'browser',
       photo: null

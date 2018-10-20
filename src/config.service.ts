@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class Config {
   public backend = {
-    host: "http://localhost:8080",
+    host: "https://nevills.herokuapp.com",
     cache_key: 'nevills-cache',
     api: {
       layer: "/events/"
