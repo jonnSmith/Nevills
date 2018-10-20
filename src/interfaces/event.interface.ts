@@ -4,6 +4,7 @@ export interface iEvent {
   description: string;
   start: string;
   time: string;
+  datestamp: string;
   photo: string;
   token: string;
   list: Array<String>

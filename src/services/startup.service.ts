@@ -38,9 +38,10 @@ export class StartupService {
         }
       }).then((token) => {
         console.log('FCM', token);
-        this.storage.set(this.config.STORAGE_FCM_TOKEN_KEY, token);
+        return this.storage.set(this.config.STORAGE_FCM_TOKEN_KEY, token);
+      }).then ( _ => {
         res();
-      })
+      });
     });
 
   }

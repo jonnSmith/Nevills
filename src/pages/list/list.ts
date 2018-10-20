@@ -44,7 +44,7 @@ export class ListScreen {
               content: 'Please wait...'
             });
             loader.present();
-            this.eventService.pop(event.id).then( _ => {
+            this.eventService.pop(event).then( _ => {
               loader.dismiss();
             });
           }
