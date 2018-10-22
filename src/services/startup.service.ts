@@ -2,19 +2,34 @@ import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Platform} from 'ionic-angular';
 import {EventsService} from "./events.service";
-import {FCM} from '@ionic-native/fcm';
 import {Config} from '../config.service';
+import {PushService} from "./push.service";
 
 /**
  * Startup service.
  */
 @Injectable()
 export class StartupService {
+
+  pushObject;
+  pushOptions = {
+    ios: {
+      alert: true,
+      badge: true,
+      sound: true
+    },
+    android: {
+      senderID: "933468819787",
+      sound: true,
+      forceShow: true
+    }
+  };
+
   constructor(private config: Config,
               private platform: Platform,
               private translate: TranslateService,
               private events: EventsService,
-              private fcm: FCM) {
+              private push: PushService) {
   }
 
   /**
@@ -26,13 +41,10 @@ export class StartupService {
       this.platform.ready().then(() => {
         return this.initTranslation();
       }).then(() => {
-        if(window['cordova']) {
-          return this.fcm.getToken();
-        } else {
-          return new Promise ((res) => res('browser'));
-        }
+        this.push.init();
+        return this.push.register();
       }).then((token: string) => {
-        console.log('FCM', token);
+        console.log('token', token);
         localStorage.setItem(this.config.STORAGE_FCM_TOKEN_KEY, token);
         return this.events.init();
       }).then( _ => {

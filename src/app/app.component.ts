@@ -20,7 +20,7 @@ export class NevillsApp {
     });
     loader.present();
     this.start.init().then( () => {
-      this.statusBar.styleDefault();
+      this.statusBar.styleLightContent();
       this.splashScreen.hide();
       loader.dismiss();
     });

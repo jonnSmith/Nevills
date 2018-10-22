@@ -10,9 +10,7 @@ import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {IonicStorageModule} from '@ionic/storage';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {LocalNotifications} from '@ionic-native/local-notifications';
 import {Camera} from '@ionic-native/camera';
-import {FCM} from '@ionic-native/fcm';
 import {File} from '@ionic-native/file';
 
 import {NevillsApp} from './app.component';
@@ -28,6 +26,7 @@ import {TabsPage} from '../pages/tabs/tabs';
 import {StartupService} from '../services/startup.service';
 import {EventsService} from '../services/events.service';
 import {HttpService} from '../services/http.service';
+import {PushService} from "../services/push.service";
 import {Config} from '../config.service';
 
 import {OutdatedPipe} from '../pipes/outdated';
@@ -77,15 +76,14 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     HttpClient,
     Camera,
-    FCM,
     File,
     StatusBar,
     SplashScreen,
-    LocalNotifications,
     DatePipe,
     StartupService,
     EventsService,
     HttpService,
+    PushService,
     Config,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

@@ -21,6 +21,18 @@ export class Config {
   public EVENTS_STORAGE_KEY = "nvls_evts";
   public STORAGE_FCM_TOKEN_KEY = "nvls_fcm_token";
   public filename = "events.nvls";
+  public pushOptions = {
+    ios: {
+      alert: true,
+      badge: true,
+      sound: true
+    },
+    android: {
+      senderID: "933468819787",
+      sound: true,
+      forceShow: true
+    }
+  };
   public CAMERA_OPTIONS = {
     quality: 80,
     saveToPhotoAlbum: false,
