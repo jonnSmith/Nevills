@@ -1,4 +1,5 @@
 import {Injectable, EventEmitter} from '@angular/core';
+import {Autostart} from '@ionic-native/autostart';
 import {Config} from '../config.service';
 
 /**
@@ -9,13 +10,16 @@ export class PushService {
 
   public pushObject;
   public onPush: EventEmitter<any> = new EventEmitter();
+  public buffer: string;
 
   constructor(
-    private config: Config
+    private config: Config,
+    private autostart: Autostart
   ) {}
 
     init() {
       if(window['cordova'] && window['PushNotification']) {
+        this.autostart.enable();
         this.pushObject = window['PushNotification'].init(this.config.pushOptions);
         this.notificate();
       }

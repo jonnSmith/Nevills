@@ -13,6 +13,6 @@ export class OutdatedPipe implements PipeTransform {
    * Takes a value and makes it lowercase.
    */
   transform(value: string, ...args) {
-    return args[0] > parseInt(value);
+    return args[0] >= parseInt(value);
   }
 }

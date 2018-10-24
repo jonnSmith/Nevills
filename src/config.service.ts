@@ -29,7 +29,10 @@ export class Config {
     },
     android: {
       senderID: "933468819787",
+      alert: true,
+      badge: true,
       sound: true,
+      vibrate: true,
       forceShow: true
     }
   };

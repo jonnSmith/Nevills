@@ -4,7 +4,7 @@ import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule, HttpClient} from '@angular/common/http';
 import {FullCalendarModule} from 'ng-fullcalendar';
-import {DatePipe} from '@angular/common'
+import {DatePipe} from '@angular/common';
 
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {IonicStorageModule} from '@ionic/storage';
@@ -12,6 +12,7 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {Camera} from '@ionic-native/camera';
 import {File} from '@ionic-native/file';
+import {Autostart} from '@ionic-native/autostart';
 
 import {NevillsApp} from './app.component';
 
@@ -76,6 +77,7 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     HttpClient,
     Camera,
+    Autostart,
     File,
     StatusBar,
     SplashScreen,

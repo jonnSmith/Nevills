@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {AlertController, NavController} from 'ionic-angular';
 import {EventScreen} from '../event/event';
+import {PushService} from "../../services/push.service";
 import {AddScreen} from '../add/add';
 import {ListScreen} from '../list/list';
 import {CalendarScreen} from '../calendar/calendar';
@@ -14,9 +15,35 @@ export class TabsPage {
   tab2Root = ListScreen;
   tab3Root = CalendarScreen;
 
-  constructor(private nav: NavController) {
-    if (window['cordova']) {
-      // if (data.url) this.nav.push(EventScreen, {id: data.url});
-    }
+  prompt;
+
+  constructor(
+    private alertCtrl: AlertController,
+    private nav: NavController,
+    private push: PushService
+  ) {
+    this.push.onPush.subscribe((data) => {
+      if(this.prompt) this.prompt.dismiss();
+      if (data.additionalData && data.additionalData.url) {
+        this.prompt = this.alertCtrl.create({
+          title: data.title,
+          message: data.message,
+          buttons: [
+            {
+              text: 'Close',
+              handler: () => {
+              }
+            },
+            {
+              text: 'Read more',
+              handler: () => {
+                this.nav.push(EventScreen, {id: data.additionalData.url});
+              }
+            }
+          ]
+        });
+        this.prompt.present();
+      }
+    });
   }
 }
