@@ -22,16 +22,27 @@ export class ListScreen {
               private nav: NavController,
               private cd: ChangeDetectorRef
   ) {
-    this.events = this.eventService.get().sort((a: iEvent, b: iEvent) =>  this.sortEvents(a,b));
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
+    this.events = this.eventService.get().sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
     this.eventService.onEventsChange.subscribe((evts) => {
-      this.events = evts.sort((a: iEvent, b: iEvent) =>  this.sortEvents(a,b));
+      this.events = evts.sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
       this.cd.detectChanges();
     });
     setInterval(() => {
       this.datestamp = new Date().setSeconds(0,0);
       this.cd.detectChanges();
     }, 30000);
+  }
+
+  private static sortEvents(a: iEvent, b: iEvent) {
+    if (parseInt(a.datestamp) > parseInt(b.datestamp)) return -1;
+    else if (parseInt(a.datestamp) < parseInt(b.datestamp)) return 1;
+    else return 0;
+  }
+
+  ionViewWillEnter() {
+    this.events = this.eventService.get().sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
+    this.cd.detectChanges();
   }
 
   popEvent(event: iEvent) {
@@ -59,12 +70,6 @@ export class ListScreen {
       ]
     });
     prompt.present();
-  }
-
-  sortEvents(a: iEvent, b: iEvent) {
-    if (parseInt(a.datestamp) > parseInt(b.datestamp)) return -1;
-    else if (parseInt(a.datestamp) < parseInt(b.datestamp)) return 1;
-    else return 0;
   }
 
   openEvent(id: String) {

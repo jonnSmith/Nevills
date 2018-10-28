@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {AlertController, NavParams, NavController, LoadingController} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
@@ -22,7 +22,8 @@ export class EventScreen implements OnInit {
               private eventService: EventsService,
               private alertCtrl: AlertController,
               private params: NavParams,
-              private nav: NavController
+              private nav: NavController,
+              private cd: ChangeDetectorRef
   ) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
@@ -37,6 +38,35 @@ export class EventScreen implements OnInit {
     this.camera.getPicture(this.options).then((imageData) => {
       this.event.photo = imageData;
     });
+  }
+
+  popEvent() {
+    const prompt = this.alertCtrl.create({
+      title: 'Delete event '+this.event.title+ '?',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            let loader = this.loading.create({
+              content: 'Please wait...'
+            });
+            loader.present();
+            this.eventService.pop(this.event).then( _ => {
+              loader.dismiss();
+              this.cd.detectChanges();
+              this.nav.pop();
+            });
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   saveEvent() {
@@ -57,8 +87,8 @@ export class EventScreen implements OnInit {
             });
             loader.present();
             this.eventService.put(this.event).then( _ => {
-              this.edit = false;
               loader.dismiss();
+              this.cd.detectChanges();
               this.nav.pop();
             });
           }
@@ -70,6 +100,7 @@ export class EventScreen implements OnInit {
 
   setEdit() {
     this.edit = true;
+    this.cd.detectChanges();
   }
 
   addListItem() {

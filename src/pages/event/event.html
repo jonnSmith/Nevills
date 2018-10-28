@@ -4,6 +4,10 @@
     <ion-icon name="md-create"></ion-icon>
     Edit
   </button>
+  <button *ngIf="!edit" outline ion-button icon-end color="danger" (click)="popEvent()">
+    <ion-icon name="md-create"></ion-icon>
+    Delete
+  </button>
   <ion-list>
     <ion-item>
       <ion-input *ngIf="edit" placeholder="Title" [(ngModel)]="event.title"></ion-input>

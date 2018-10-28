@@ -6,6 +6,7 @@ export interface iEvent {
   time: string;
   datestamp: string;
   photo: string;
+  sound: string;
   token: string;
   list: Array<String>
 }

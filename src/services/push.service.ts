@@ -33,7 +33,7 @@ export class PushService {
           })
         });
       } else {
-        new Promise ((res) => res('browser'));
+        return new Promise ((res) => res('browser'));
       }
     }
 

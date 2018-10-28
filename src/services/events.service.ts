@@ -179,7 +179,8 @@ export class EventsService {
       datestamp: null,
       list: ['Add item to list'],
       token: 'browser',
-      photo: null
+      photo: null,
+      sound: "ring"
     };
   }
 

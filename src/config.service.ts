@@ -36,6 +36,7 @@ export class Config {
       forceShow: true
     }
   };
+  public sounds = ['beep', 'ring'];
   public CAMERA_OPTIONS = {
     quality: 80,
     saveToPhotoAlbum: false,
