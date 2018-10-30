@@ -11,20 +11,6 @@ import {PushService} from "./push.service";
 @Injectable()
 export class StartupService {
 
-  pushObject;
-  pushOptions = {
-    ios: {
-      alert: true,
-      badge: true,
-      sound: true
-    },
-    android: {
-      senderID: "933468819787",
-      sound: true,
-      forceShow: true
-    }
-  };
-
   constructor(private config: Config,
               private platform: Platform,
               private translate: TranslateService,
