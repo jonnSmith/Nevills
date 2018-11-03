@@ -1,17 +1,16 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DatePipe} from '@angular/common';
 import {FormGroup,FormArray,FormBuilder,Validators} from '@angular/forms';
 import {AlertController, LoadingController, Tabs} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
-import {iEvent} from '../../interfaces/event.interface';
 import {Config} from '../../config.service';
 
 @Component({
   selector: 'add',
   templateUrl: 'add.html'
 })
-export class AddScreen {
+export class AddScreen implements OnInit {
 
   public dummyPhoto: String;
   private options: CameraOptions;
@@ -24,19 +23,19 @@ export class AddScreen {
               private loading: LoadingController,
               private tabs:Tabs,
               private formBuilder: FormBuilder,
-              private datepipe: DatePipe,
-              private cd: ChangeDetectorRef) {
+              private datepipe: DatePipe) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
+  }
+
+  ngOnInit() {
     this.addEventForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
       start: [this.datepipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
       time: [this.datepipe.transform(new Date(), 'HH:mm'), Validators.required],
       photo: [null],
-      list: this.formBuilder.array([
-        this.initItem(),
-      ])
+      list: this.formBuilder.array([this.initItem()])
     });
   }
 
@@ -62,7 +61,6 @@ export class AddScreen {
   addEvent() {
     let event = {...this.addEventForm.value};
     if(!this.addEventForm.errors) {
-      console.log('e', event.list);
       if(event.list.length) {
         event.list = event.list.filter((i) => i && i.line).map((e) => e.line);
       }
@@ -95,6 +93,8 @@ export class AddScreen {
         ]
       });
       prompt.present();
+    } else {
+      console.log('FORM ERROR', this.addEventForm.errors)
     }
   }
 
