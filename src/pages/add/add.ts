@@ -1,5 +1,6 @@
 import {Component, ChangeDetectorRef} from '@angular/core';
-import {DatePipe} from '@angular/common'
+import {DatePipe} from '@angular/common';
+import {FormGroup,FormArray,FormBuilder,Validators} from '@angular/forms';
 import {AlertController, LoadingController, Tabs} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
@@ -13,8 +14,8 @@ import {Config} from '../../config.service';
 export class AddScreen {
 
   public dummyPhoto: String;
-  public event: iEvent;
   private options: CameraOptions;
+  private addEventForm: FormGroup;
 
   constructor(private config: Config,
               private camera: Camera,
@@ -22,60 +23,89 @@ export class AddScreen {
               private alertCtrl: AlertController,
               private loading: LoadingController,
               private tabs:Tabs,
+              private formBuilder: FormBuilder,
               private datepipe: DatePipe,
               private cd: ChangeDetectorRef) {
-    this.event = this.eventService.getDummy();
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
+    this.addEventForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      description: ['', Validators.required],
+      start: [this.datepipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
+      time: [this.datepipe.transform(new Date(), 'HH:mm'), Validators.required],
+      photo: [null],
+      list: this.formBuilder.array([
+        this.initItem(),
+      ])
+    });
+  }
+
+  initItem() {
+    return this.formBuilder.group({
+      line: ['']
+    });
   }
 
   ionViewWillEnter() {
-    const date = new Date();
-    this.event.start = this.datepipe.transform(date, 'yyyy-MM-dd');
-    this.event.time = this.datepipe.transform(date, 'HH:mm');
-    this.cd.detectChanges();
+    this.addEventForm.controls['start'].patchValue(this.datepipe.transform(new Date(), 'yyyy-MM-dd'));
+    this.addEventForm.controls['time'].patchValue(this.datepipe.transform(new Date(), 'HH:mm'));
   }
 
   takePhoto() {
-    this.camera.getPicture(this.options).then((imageData) => {
-      this.event.photo = imageData;
-    });
+    if(window['cordova']) {
+      this.camera.getPicture(this.options).then((imageData) => {
+        this.addEventForm.controls['photo'].patchValue(imageData);
+      });
+    }
   }
 
   addEvent() {
-    const prompt = this.alertCtrl.create({
-      title: 'Save event ' + this.event.title + '?',
-      message: 'Are you sure?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
+    let event = {...this.addEventForm.value};
+    if(!this.addEventForm.errors) {
+      console.log('e', event.list);
+      if(event.list.length) {
+        event.list = event.list.filter((i) => i && i.line).map((e) => e.line);
+      }
+      const prompt = this.alertCtrl.create({
+        title: 'Save event ' + event.title + '?',
+        message: 'Are you sure?',
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: () => {
+            }
+          },
+          {
+            text: 'Save',
+            handler: () => {
+              let loader = this.loading.create({
+                content: 'Please wait...'
+              });
+              loader.present();
+              this.eventService.push(event).then( _ => {
+                this.addEventForm.reset();
+                loader.dismiss();
+                this.tabs.select(1);
+              }, (err) => {
+                loader.dismiss();
+                console.log('add event error', err);
+              });
+            }
           }
-        },
-        {
-          text: 'Save',
-          handler: () => {
-            let loader = this.loading.create({
-              content: 'Please wait...'
-            });
-            loader.present();
-            this.eventService.push(this.event).then( _ => {
-              this.event = this.eventService.getDummy();
-              loader.dismiss();
-              this.tabs.select(1);
-            }, (err) => {
-              loader.dismiss();
-              console.log('add event error', err);
-            });
-          }
-        }
-      ]
-    });
-    prompt.present();
+        ]
+      });
+      prompt.present();
+    }
   }
 
   addListItem() {
-    this.event.list[this.event.list.length] = this.config.DUMMY_LIST_ITEM;
+    const control = < FormArray > this.addEventForm.controls['list'];
+    control.push(this.initItem());
+  }
+
+  removeListItem(i: number) {
+    const control = < FormArray > this.addEventForm.controls['list'];
+    control.removeAt(i);
   }
 
 }
