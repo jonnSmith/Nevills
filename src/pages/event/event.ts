@@ -35,13 +35,18 @@ export class EventScreen implements OnInit {
   ngOnInit() {
     const id = this.params.get('id');
     this.event = this.eventService.getEvent(id);
-    let listArray = this.event.list.length ? this.event.list.map((i) => this.setListItem(i)) : [this.setListItem('')];
+    this.setFromGroup();
+  }
+
+  setFromGroup() {
+    let evt = {...this.event};
+    let listArray = evt.list.length ? evt.list.map((i) => this.setListItem(i)) : [this.setListItem('')];
     this.editEventForm = this.formBuilder.group({
-      title: [this.event.title, Validators.required],
-      description: [this.event.description, Validators.required],
-      start: [this.event.start, Validators.required],
-      time: [this.event.time, Validators.required],
-      photo: [this.event.photo],
+      title: [evt.title, Validators.required],
+      description: [evt.description, Validators.required],
+      start: [evt.start, Validators.required],
+      time: [evt.time, Validators.required],
+      photo: [evt.photo],
       list: this.formBuilder.array(listArray)
     });
   }
@@ -63,9 +68,11 @@ export class EventScreen implements OnInit {
   }
 
   takePhoto() {
-    this.camera.getPicture(this.options).then((imageData) => {
-      this.event.photo = imageData;
-    });
+    if(window['cordova']) {
+      this.camera.getPicture(this.options).then((imageData) => {
+        this.editEventForm.controls['photo'].patchValue(imageData);
+      });
+    }
   }
 
   popEvent() {
@@ -104,7 +111,7 @@ export class EventScreen implements OnInit {
         event.list = event.list.filter((i) => i && i.line).map((e) => e.line);
       }
       const prompt = this.alertCtrl.create({
-        title: 'Update event ' + this.event.title + '?',
+        title: 'Update event ' + event.title + '?',
         message: 'Are you sure?',
         buttons: [
           {
@@ -119,8 +126,9 @@ export class EventScreen implements OnInit {
                 content: 'Please wait...'
               });
               loader.present();
-              this.eventService.put(event).then(_ => {
+              this.eventService.put(event, this.event).then(_ => {
                 this.event = {...event};
+                this.setFromGroup();
                 loader.dismiss();
                 this.cd.detectChanges();
                 this.nav.pop();

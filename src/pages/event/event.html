@@ -1,14 +1,16 @@
 <header-component [title]="(edit ? 'Edit ' : '') + event.title"></header-component>
 <ion-content padding>
   <div *ngIf="!edit">
-    <button *ngIf="!edit" outline ion-button icon-start color="primary" (click)="setEdit()">
-      <ion-icon name="md-create"></ion-icon>
-      Edit
-    </button>
-    <button *ngIf="!edit" outline ion-button icon-end color="danger" (click)="popEvent()">
-      <ion-icon name="md-create"></ion-icon>
-      Delete
-    </button>
+    <ion-list>
+      <ion-item>
+        <button outline ion-button item-start icon-start color="primary" (click)="setEdit()">
+        <ion-icon name="md-create"></ion-icon> {{'edit' | translate}}
+      </button>
+        <button outline ion-button item-end icon-start color="danger" (click)="popEvent()">
+          <ion-icon name="md-create"></ion-icon> {{'delete' | translate}}
+        </button>
+      </ion-item>
+    </ion-list>
     <ion-list>
       <ion-item>
         <ion-label *ngIf="!edit">{{event.title}}</ion-label>
@@ -22,7 +24,7 @@
     </ion-list>
     <ion-list>
       <ion-item>{{'start' | translate}}: {{event.start}}</ion-item>
-      <ion-item>{{'time' | translate}} {{event.time}}</ion-item>
+      <ion-item>{{'time' | translate}}: {{event.time}}</ion-item>
       <ion-card>
         <img [src]="event.photo ? event.photo : dummyPhoto"/>
       </ion-card>
@@ -62,13 +64,13 @@
       <ion-card>
         <img [src]="editEventForm.controls['photo'].value ? editEventForm.controls['photo'].value : dummyPhoto"/>
         <ion-card-content>
-          <button ion-button color="{{editEventForm.controls['photo'].value ? 'primary' : 'secondary'}}" full round (click)="takePhoto()">
-            <span *ngIf="!editEventForm.controls.photo">Take Photo</span>
-            <span *ngIf="editEventForm.controls.photo">Change Photo</span>
+          <button type="button" ion-button color="{{editEventForm.controls['photo'].value ? 'primary' : 'secondary'}}" full round (click)="takePhoto()">
+            <span *ngIf="!editEventForm.controls['photo'].value">{{'addphoto' | translate}}</span>
+            <span *ngIf="editEventForm.controls['photo'].value">{{'changephoto' | translate}}</span>
           </button>
         </ion-card-content>
       </ion-card>
     </ion-list>
-    <button type="submit" ion-button round full color="secondary" class="button-add-ball button-bottom" [disabled]="!editEventForm.valid">{{'add' | translate}}</button>
+    <button type="submit" ion-button round full color="secondary" class="button-add-ball button-bottom" [disabled]="!editEventForm.valid">{{'save' | translate}}</button>
   </form>
 </ion-content>

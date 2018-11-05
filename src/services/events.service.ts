@@ -126,16 +126,23 @@ export class EventsService {
     });
   }
 
-  put(event: iEvent) {
+  put(newevent: iEvent, oldevent: iEvent) {
     return new Promise((res) => {
-      const token = localStorage.getItem(this.config.STORAGE_FCM_TOKEN_KEY);
-      this.http.post(this.config.backend.host + this.config.backend.api.layer + 'delete', event).then( _ => {
-        this.http.post(this.config.backend.host + this.config.backend.api.layer, event).then(_ => {
+      this.http.post(this.config.backend.host + this.config.backend.api.layer + 'delete', oldevent).then( _ => {
+        const evt = {
+          ...Object.assign({}, newevent),
+          ...{
+            id: EventsService.generateRandomId(),
+            datestamp: new Date(newevent.start + ' ' + newevent.time).getTime().toString()
+          }
+        };
+        evt.list = evt.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
+        evt.token = localStorage.getItem(this.config.STORAGE_FCM_TOKEN_KEY);
+        evt.id = evt.id + evt.token;
+        this.http.post(this.config.backend.host + this.config.backend.api.layer, evt).then(_ => {
           this.events = this.events.map((e) => {
-            if (e.id === event.id) {
-              event.token = token;
-              event.list = event.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
-              Object.assign(e, event);
+            if (e.id === oldevent.id) {
+              Object.assign(e, evt);
             }
             return e;
           });

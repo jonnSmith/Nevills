@@ -1,11 +1,17 @@
 {
-  "add": "Add ball",
-  "save": "Save ball",
-  "title": "Remeberball title",
-  "description": "Description and details",
-  "list": "Numbered list",
+  "add": "Add push",
+  "edit": "Edit",
+  "delete": "Delete",
+  "list": "List",
+  "calendar": "Calendar",
+  "save": "Save push",
+  "title": "Push title",
+  "description": "Push description and details",
+  "todolist": "Numbered todo list",
   "listitem": "Item number ",
   "additem": "Add list item",
   "start": "What day",
-  "time": "What time"
+  "time": "What time",
+  "addphoto": "Take photo",
+  "change photo": "Change photo"
 }
