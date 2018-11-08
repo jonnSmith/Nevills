@@ -2,7 +2,10 @@
   "add": "Add push",
   "edit": "Edit",
   "delete": "Delete",
+  "cancel": "Cancel",
+  "wait": "Please wait...",
   "list": "List",
+  "outdated": "(Outdated)",
   "calendar": "Calendar",
   "save": "Save push",
   "title": "Push title",
@@ -13,5 +16,10 @@
   "start": "What day",
   "time": "What time",
   "addphoto": "Take photo",
-  "change photo": "Change photo"
+  "change photo": "Change photo",
+  "check": "Are you sure?",
+  "error": "Error happened:",
+  "retry": "Retry",
+  "NO_CONNECTION": "Internet is not connected",
+  "NO_TOKEN": "Push notification error"
 }

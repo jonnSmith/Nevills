@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 import {DatePipe} from '@angular/common';
 import {FormGroup,FormArray,FormBuilder,Validators} from '@angular/forms';
 import {AlertController, LoadingController, Tabs} from 'ionic-angular';
@@ -18,6 +19,7 @@ export class AddScreen implements OnInit {
 
   constructor(private config: Config,
               private camera: Camera,
+              private translate: TranslateService,
               private eventService: EventsService,
               private alertCtrl: AlertController,
               private loading: LoadingController,
@@ -64,35 +66,39 @@ export class AddScreen implements OnInit {
       if(event.list.length) {
         event.list = event.list.filter((i) => i && i.line).map((e) => e.line);
       }
-      const prompt = this.alertCtrl.create({
-        title: 'Save event ' + event.title + '?',
-        message: 'Are you sure?',
-        buttons: [
-          {
-            text: 'Cancel',
-            handler: () => {
+      const translateSubscription = this.translate.get(['save', 'add', 'check', 'cancel', 'wait']).subscribe(t => {
+        const prompt = this.alertCtrl.create({
+          title: t.add + ' ' + event.title + '?',
+          message: t.check,
+          buttons: [
+            {
+              text: t.cancel,
+              handler: () => {
+                translateSubscription.unsubscribe();
+              }
+            },
+            {
+              text: t.add,
+              handler: () => {
+                let loader = this.loading.create({
+                  content: t.wait
+                });
+                loader.present();
+                translateSubscription.unsubscribe();
+                this.eventService.push(event).then(_ => {
+                  this.addEventForm.reset();
+                  loader.dismiss();
+                  this.tabs.select(1);
+                }, (err) => {
+                  loader.dismiss();
+                  console.log('add event error', err);
+                });
+              }
             }
-          },
-          {
-            text: 'Save',
-            handler: () => {
-              let loader = this.loading.create({
-                content: 'Please wait...'
-              });
-              loader.present();
-              this.eventService.push(event).then( _ => {
-                this.addEventForm.reset();
-                loader.dismiss();
-                this.tabs.select(1);
-              }, (err) => {
-                loader.dismiss();
-                console.log('add event error', err);
-              });
-            }
-          }
-        ]
+          ]
+        });
+        prompt.present();
       });
-      prompt.present();
     } else {
       console.log('FORM ERROR', this.addEventForm.errors)
     }

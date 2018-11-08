@@ -1,4 +1,5 @@
 import {Component, ChangeDetectorRef} from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
 import {EventsService} from '../../services/events.service';
 import {AlertController, NavController, LoadingController} from 'ionic-angular';
 import {iEvent} from '../../interfaces/event.interface';
@@ -16,6 +17,7 @@ export class ListScreen {
   public datestamp = new Date().setSeconds(0,0);
 
   constructor(private loading: LoadingController,
+              private translate: TranslateService,
               private config: Config,
               private eventService: EventsService,
               private alertCtrl: AlertController,
@@ -46,30 +48,34 @@ export class ListScreen {
   }
 
   popEvent(event: iEvent) {
-    const prompt = this.alertCtrl.create({
-      title: 'Delete event '+event.title+ '?',
-      message: 'Are you sure?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
+    const translateSubscription = this.translate.get(['delete', 'check', 'cancel', 'wait']).subscribe(t => {
+      const prompt = this.alertCtrl.create({
+        title: t.delete + ' ' + event.title + '?',
+        message: t.check,
+        buttons: [
+          {
+            text: t.cancel,
+            handler: () => {
+              translateSubscription.unsubscribe();
+            }
+          },
+          {
+            text: t.delete,
+            handler: () => {
+              let loader = this.loading.create({
+                content: t.wait
+              });
+              loader.present();
+              this.eventService.pop(event).then(_ => {
+                loader.dismiss();
+              });
+              translateSubscription.unsubscribe();
+            }
           }
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            let loader = this.loading.create({
-              content: 'Please wait...'
-            });
-            loader.present();
-            this.eventService.pop(event).then( _ => {
-              loader.dismiss();
-            });
-          }
-        }
-      ]
+        ]
+      });
+      prompt.present();
     });
-    prompt.present();
   }
 
   openEvent(id: String) {

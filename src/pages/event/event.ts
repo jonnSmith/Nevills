@@ -1,5 +1,6 @@
 import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {FormGroup,FormArray,FormBuilder,Validators} from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
 import {AlertController, NavParams, NavController, LoadingController} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
@@ -19,6 +20,7 @@ export class EventScreen implements OnInit {
   private editEventForm: FormGroup;
 
   constructor(private loading: LoadingController,
+              private translate: TranslateService,
               private config: Config,
               private camera: Camera,
               private eventService: EventsService,
@@ -76,32 +78,36 @@ export class EventScreen implements OnInit {
   }
 
   popEvent() {
-    const prompt = this.alertCtrl.create({
-      title: 'Delete event '+this.event.title+ '?',
-      message: 'Are you sure?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
+    const translateSubscription = this.translate.get(['delete', 'check', 'cancel', 'wait']).subscribe(t => {
+      const prompt = this.alertCtrl.create({
+        title:t.delete + ' ' + this.event.title + '?',
+        message: t.check,
+        buttons: [
+          {
+            text: t.cancel,
+            handler: () => {
+              translateSubscription.unsubscribe();
+            }
+          },
+          {
+            text: t.delete,
+            handler: () => {
+              let loader = this.loading.create({
+                content: t.wait
+              });
+              loader.present();
+              this.eventService.pop(this.event).then(_ => {
+                loader.dismiss();
+                this.cd.detectChanges();
+                this.nav.pop();
+              });
+              translateSubscription.unsubscribe();
+            }
           }
-        },
-        {
-          text: 'Delete',
-          handler: () => {
-            let loader = this.loading.create({
-              content: 'Please wait...'
-            });
-            loader.present();
-            this.eventService.pop(this.event).then( _ => {
-              loader.dismiss();
-              this.cd.detectChanges();
-              this.nav.pop();
-            });
-          }
-        }
-      ]
+        ]
+      });
+      prompt.present();
     });
-    prompt.present();
   }
 
   saveEvent() {
@@ -110,34 +116,38 @@ export class EventScreen implements OnInit {
       if(event.list.length) {
         event.list = event.list.filter((i) => i && i.line).map((e) => e.line);
       }
-      const prompt = this.alertCtrl.create({
-        title: 'Update event ' + event.title + '?',
-        message: 'Are you sure?',
-        buttons: [
-          {
-            text: 'Cancel',
-            handler: () => {
+      const translateSubscription = this.translate.get(['save', 'add', 'check', 'cancel', 'wait']).subscribe(t => {
+        const prompt = this.alertCtrl.create({
+          title:  t.save + ' ' + event.title + '?',
+          message: t.check,
+          buttons: [
+            {
+              text: t.cancel,
+              handler: () => {
+                translateSubscription.unsubscribe();
+              }
+            },
+            {
+              text: t.save,
+              handler: () => {
+                let loader = this.loading.create({
+                  content: t.wait
+                });
+                loader.present();
+                this.eventService.put(event, this.event).then(_ => {
+                  this.event = {...event};
+                  this.setFromGroup();
+                  loader.dismiss();
+                  this.cd.detectChanges();
+                  this.nav.pop();
+                  translateSubscription.unsubscribe();
+                });
+              }
             }
-          },
-          {
-            text: 'Update',
-            handler: () => {
-              let loader = this.loading.create({
-                content: 'Please wait...'
-              });
-              loader.present();
-              this.eventService.put(event, this.event).then(_ => {
-                this.event = {...event};
-                this.setFromGroup();
-                loader.dismiss();
-                this.cd.detectChanges();
-                this.nav.pop();
-              });
-            }
-          }
-        ]
+          ]
+        });
+        prompt.present();
       });
-      prompt.present();
     }
   }
 

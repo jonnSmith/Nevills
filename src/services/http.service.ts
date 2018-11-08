@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, EventEmitter} from '@angular/core';
 import {Config} from '../config.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
@@ -7,8 +7,41 @@ let CACHE = {};
 @Injectable()
 export class HttpService {
 
+  // EvenEmitter for online/offline
+  public networkStatus = new EventEmitter<boolean>();
+  // Shows if user has network or not
+  private _isOnline: boolean;
+
   constructor(private _http: HttpClient, private config: Config) {
     HttpService.loadCache();
+    this.listenOnlineOffline();
+  }
+
+  /**
+   * Create event listener for oniline/offline network state
+   */
+  public listenOnlineOffline() {
+    // console.log(navigator);
+    this.updateNetworkStatus(navigator.onLine);
+    document.addEventListener('online',  () => this.updateNetworkStatus(true), false);
+    document.addEventListener('offline',  () => this.updateNetworkStatus(false), false);
+  }
+
+  /**
+   * Update network status
+   * @param {boolean} isOnline
+   */
+  private updateNetworkStatus(isOnline: boolean) {
+    this._isOnline = isOnline;
+    this.networkStatus.emit(isOnline);
+  }
+
+  get isOnline(): boolean {
+    return this._isOnline;
+  }
+
+  set isOnline(value: boolean) {
+    this._isOnline = value;
   }
 
   /**

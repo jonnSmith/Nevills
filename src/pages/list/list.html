@@ -1,11 +1,11 @@
-<header-component [title]="'Balls list'"></header-component>
+<header-component [title]="'list' | translate"></header-component>
 <ion-content padding>
   <ion-list *ngIf="events.length">
     <ion-item  *ngFor="let e of events;" >
       <ion-avatar item-start>
         <img [src]="e.photo ? e.photo : dummyPhoto">
       </ion-avatar>
-      <h2>{{e.title}} <span *ngIf="e.datestamp | outdated: datestamp">(outdated)</span></h2>
+      <h2>{{e.title}} <span *ngIf="e.datestamp | outdated: datestamp">{{'outdated' | translate}}</span></h2>
       <h3>{{e.start}} {{e.time}}</h3>
       <p>{{e.description}}</p>
       <ion-icon name="ios-create-outline" color="primary" item-end (click)="openEvent(e.id)"></ion-icon>

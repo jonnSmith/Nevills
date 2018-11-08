@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {Platform} from 'ionic-angular';
+import {Platform, AlertController, LoadingController} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 import {EventsService} from "./events.service";
+import {HttpService} from "./http.service";
 import {Config} from '../config.service';
 import {PushService} from "./push.service";
 
@@ -11,34 +14,63 @@ import {PushService} from "./push.service";
 @Injectable()
 export class StartupService {
 
-  constructor(private config: Config,
+  loader;
+
+  constructor(private loading: LoadingController,
+              private statusBar: StatusBar,
+              private splashScreen: SplashScreen,
+              private config: Config,
               private platform: Platform,
               private translate: TranslateService,
               private events: EventsService,
-              private push: PushService) {
+              private http: HttpService,
+              private push: PushService,
+              private alertCtrl: AlertController) {
   }
 
   /**
    * Main application initialization routine. Called before angular app starts
    * @returns {Promise<any>}
    */
-  public init(): Promise<any> {
-    return new Promise( (res) => {
-      this.platform.ready().then(() => {
-        return this.initTranslation();
-      }).then(() => {
-        this.push.init();
-        return this.push.register();
-      }).then((token: string) => {
-        console.log('token', token);
-        localStorage.setItem(this.config.STORAGE_FCM_TOKEN_KEY, token);
-        return this.events.init();
-      }).then( _ => {
-        res();
-      })
-
+  public init(): void {
+    if(!this.loader) {
+      this.loader = this.loading.create();
+      this.loader.present();
+    }
+    this.platform.ready().then(() => {
+      this.http.listenOnlineOffline();
+      return this.initTranslation();
+    }).then(() => {
+      if( !this.http.isOnline ) { throw Error('NO_CONNECTION'); }
+      this.push.init();
+      return this.push.register();
+    }).then((token: string) => {
+      if(!token) { throw Error('NO_TOKEN'); }
+      console.log('token', token);
+      localStorage.setItem(this.config.STORAGE_FCM_TOKEN_KEY, token);
+      return this.events.init();
+    }).then( _ => {
+      this.statusBar.styleLightContent();
+      this.splashScreen.hide();
+      this.loader.dismiss();
+    }).catch(error => {
+      const translateSubscription = this.translate.get(['error', 'retry', 'NO_CONNECTION', 'NO_TOKEN']).subscribe(t => {
+        const prompt = this.alertCtrl.create({
+          title: t.error,
+          message: t[error.message],
+          buttons: [
+            {
+              text: t.retry,
+              handler: () => {
+                this.init();
+                translateSubscription.unsubscribe();
+              }
+            }
+          ]
+        });
+        prompt.present();
+      });
     });
-
   }
 
   /**
