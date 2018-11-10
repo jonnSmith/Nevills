@@ -42,6 +42,7 @@ export class EventScreen implements OnInit {
     const id = this.params.get('id');
     this.event = this.eventService.getEvent(id);
     this.setFromGroup();
+    setInterval(()=> { this.editEventForm.controls['time'].updateValueAndValidity(); }, 1000 * 30);
   }
 
   setFromGroup() {

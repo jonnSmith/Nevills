@@ -19,8 +19,6 @@ export class AddScreen implements OnInit {
   private options: CameraOptions;
   private addEventForm: FormGroup;
 
-  public textForItem;
-
   constructor(private config: Config,
               private camera: Camera,
               private translate: TranslateService,
@@ -37,6 +35,7 @@ export class AddScreen implements OnInit {
 
   ngOnInit() {
     this.setupForm();
+    setInterval(()=> { this.addEventForm.controls['time'].updateValueAndValidity(); }, 1000 * 30);
   }
 
   setupForm() {

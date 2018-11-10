@@ -47,7 +47,7 @@
     </ion-list>
     <ion-list>
       <ion-label>{{'list' | translate}}</ion-label>
-      <div formArrayName="list" *ngFor="let item of editEventForm.get('list').controls; let i = index;">
+      <div class="list-item" formArrayName="list" *ngFor="let item of editEventForm.get('list').controls; let i = index;">
         <div [formGroupName]="i">
           <ion-item>
             <ion-input type="text" formControlName="description" placeholder="{{'todolistitem' | translate}} {{i+1}}" item-start></ion-input>

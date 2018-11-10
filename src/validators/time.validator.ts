@@ -10,8 +10,6 @@ export function timeValidator (dateFieldKey: string) {
 
     let current = new Date().getTime();
 
-    setInterval(()=> { current = new Date().getTime(); }, 1000 * 60);
-
     if (!control.parent) {
       return null;
     }
