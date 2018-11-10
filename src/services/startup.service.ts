@@ -7,6 +7,7 @@ import {EventsService} from "./events.service";
 import {HttpService} from "./http.service";
 import {Config} from '../config.service';
 import {PushService} from "./push.service";
+import {iEvent} from '../interfaces/event.interface';
 
 /**
  * Startup service.
@@ -49,7 +50,8 @@ export class StartupService {
       console.log('token', token);
       localStorage.setItem(this.config.STORAGE_FCM_TOKEN_KEY, token);
       return this.events.init();
-    }).then( _ => {
+    }).then( (data: Array<iEvent>) => {
+      console.log('events', data);
       this.statusBar.styleLightContent();
       this.splashScreen.hide();
       this.loader.dismiss();

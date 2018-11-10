@@ -30,7 +30,7 @@ export class PushService {
         return new Promise((res) => {
           this.pushObject.on('registration', (data) => {
             res(data.registrationId);
-          })
+          });
         });
       } else {
         return new Promise ((res) => res('browser'));

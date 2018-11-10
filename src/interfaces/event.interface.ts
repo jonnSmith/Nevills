@@ -1,3 +1,8 @@
+export interface iTodo {
+  checked: boolean;
+  description: string;
+}
+
 export interface iEvent {
   id: string;
   title: string;
@@ -8,5 +13,10 @@ export interface iEvent {
   photo: string;
   sound: string;
   token: string;
-  list: Array<String>
+  list: Array<iTodo>
+}
+
+export const emptyTodo = {
+  description: '',
+  checked: false
 }

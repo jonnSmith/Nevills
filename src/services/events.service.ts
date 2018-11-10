@@ -1,5 +1,4 @@
 import {Injectable, EventEmitter} from '@angular/core';
-import {DatePipe} from '@angular/common';
 import {File} from '@ionic-native/file';
 import {iEvent} from '../interfaces/event.interface';
 import {HttpService} from './http.service'
@@ -17,7 +16,6 @@ export class EventsService {
 
   constructor(private config: Config,
               private http: HttpService,
-              private datepipe: DatePipe,
               private file: File) {
   }
 
@@ -44,7 +42,7 @@ export class EventsService {
             this.file.readAsText(this.file.dataDirectory, this.config.filename).then((data) => {
               // console.log('read', data);
               this.events = data ? JSON.parse(data) : [];
-              res(this.events);
+              res();
             }, (err) => {
               console.log('file read error', err);
               this.events = [];
@@ -78,7 +76,7 @@ export class EventsService {
           datestamp: new Date(event.start + ' ' + event.time).getTime().toString()
         }
       };
-      evt.list = evt.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
+      evt.list = evt.list.filter((e) => e && e.description);
       evt.token = localStorage.getItem(this.config.STORAGE_FCM_TOKEN_KEY);
       evt.id = evt.id + evt.token;
       this.http.post(this.config.backend.host + this.config.backend.api.layer, evt).then( _ => {
@@ -136,7 +134,7 @@ export class EventsService {
             datestamp: new Date(newevent.start + ' ' + newevent.time).getTime().toString()
           }
         };
-        evt.list = evt.list.filter((e) => e && e !== this.config.DUMMY_LIST_ITEM);
+        evt.list = evt.list.filter((e) => e && e.description);
         evt.token = localStorage.getItem(this.config.STORAGE_FCM_TOKEN_KEY);
         evt.id = evt.id + evt.token;
         this.http.post(this.config.backend.host + this.config.backend.api.layer, evt).then(_ => {
@@ -173,22 +171,6 @@ export class EventsService {
 
   getEvent(id: String) {
     return this.events.find((e) => e.id === id);
-  }
-
-  getDummy() {
-    const date = new Date();
-    return {
-      id: null,
-      title: 'New ball',
-      description: 'Add event description...',
-      start: this.datepipe.transform(date, 'yyyy-MM-dd'),
-      time: this.datepipe.transform(date, 'HH:mm'),
-      datestamp: null,
-      list: ['Add item to list'],
-      token: 'browser',
-      photo: null,
-      sound: "ring"
-    };
   }
 
 }

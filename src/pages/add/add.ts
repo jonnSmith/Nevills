@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DatePipe} from '@angular/common';
 import {FormGroup,FormArray,FormBuilder,Validators} from '@angular/forms';
@@ -6,6 +6,7 @@ import {AlertController, LoadingController, Tabs} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {Config} from '../../config.service';
+import {emptyTodo} from "../../interfaces/event.interface";
 
 @Component({
   selector: 'add',
@@ -24,6 +25,7 @@ export class AddScreen implements OnInit {
               private alertCtrl: AlertController,
               private loading: LoadingController,
               private tabs:Tabs,
+              private cd: ChangeDetectorRef,
               private formBuilder: FormBuilder,
               private datepipe: DatePipe) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
@@ -31,6 +33,10 @@ export class AddScreen implements OnInit {
   }
 
   ngOnInit() {
+    this.setupForm();
+  }
+
+  setupForm() {
     this.addEventForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
@@ -42,20 +48,19 @@ export class AddScreen implements OnInit {
   }
 
   initItem() {
-    return this.formBuilder.group({
-      line: ['']
-    });
+    return this.formBuilder.group(emptyTodo);
   }
 
   ionViewWillEnter() {
-    this.addEventForm.controls['start'].patchValue(this.datepipe.transform(new Date(), 'yyyy-MM-dd'));
-    this.addEventForm.controls['time'].patchValue(this.datepipe.transform(new Date(), 'HH:mm'));
+    this.setupForm();
+    this.cd.detectChanges();
   }
 
   takePhoto() {
     if(window['cordova']) {
       this.camera.getPicture(this.options).then((imageData) => {
         this.addEventForm.controls['photo'].patchValue(imageData);
+        this.cd.detectChanges();
       });
     }
   }
@@ -63,9 +68,6 @@ export class AddScreen implements OnInit {
   addEvent() {
     let event = {...this.addEventForm.value};
     if(!this.addEventForm.errors) {
-      if(event.list.length) {
-        event.list = event.list.filter((i) => i && i.line).map((e) => e.line);
-      }
       const translateSubscription = this.translate.get(['save', 'add', 'check', 'cancel', 'wait']).subscribe(t => {
         const prompt = this.alertCtrl.create({
           title: t.add + ' ' + event.title + '?',
@@ -107,11 +109,13 @@ export class AddScreen implements OnInit {
   addListItem() {
     const control = < FormArray > this.addEventForm.controls['list'];
     control.push(this.initItem());
+    this.cd.detectChanges();
   }
 
   removeListItem(i: number) {
     const control = < FormArray > this.addEventForm.controls['list'];
     control.removeAt(i);
+    this.cd.detectChanges();
   }
 
 }

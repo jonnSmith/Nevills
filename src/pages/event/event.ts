@@ -4,7 +4,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {AlertController, NavParams, NavController, LoadingController} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
-import {iEvent} from '../../interfaces/event.interface';
+import {iEvent, iTodo, emptyTodo} from '../../interfaces/event.interface';
 import {Config} from '../../config.service';
 
 @Component({
@@ -42,7 +42,7 @@ export class EventScreen implements OnInit {
 
   setFromGroup() {
     let evt = {...this.event};
-    let listArray = evt.list.length ? evt.list.map((i) => this.setListItem(i)) : [this.setListItem('')];
+    let listArray = evt.list.length ? evt.list.map((i: iTodo) => this.setListItem(i)) : [this.setListItem(emptyTodo)];
     this.editEventForm = this.formBuilder.group({
       title: [evt.title, Validators.required],
       description: [evt.description, Validators.required],
@@ -53,26 +53,35 @@ export class EventScreen implements OnInit {
     });
   }
 
-  setListItem(line: String) {
-    return this.formBuilder.group({
-      line: [line]
-    });
+  setListItem(line: iTodo) {
+    return this.formBuilder.group(line);
   }
 
   addListItem() {
     const control = < FormArray > this.editEventForm.controls['list'];
-    control.push(this.setListItem(''));
+    control.push(this.setListItem(emptyTodo));
+    this.cd.detectChanges();
   }
 
   removeListItem(i: number) {
     const control = < FormArray > this.editEventForm.controls['list'];
     control.removeAt(i);
+    this.cd.detectChanges();
+  }
+
+  switchTodoListItem(i: number) {
+    const control = < FormArray > this.editEventForm.controls['list'];
+    let itemValue: iTodo = {...control.value[i]};
+    itemValue.checked = !itemValue.checked;
+    control.at(i).patchValue(itemValue);
+    this.cd.detectChanges();
   }
 
   takePhoto() {
     if(window['cordova']) {
       this.camera.getPicture(this.options).then((imageData) => {
         this.editEventForm.controls['photo'].patchValue(imageData);
+        this.cd.detectChanges();
       });
     }
   }
@@ -113,9 +122,6 @@ export class EventScreen implements OnInit {
   saveEvent() {
     let event = {...this.editEventForm.value};
     if(!this.editEventForm.errors) {
-      if(event.list.length) {
-        event.list = event.list.filter((i) => i && i.line).map((e) => e.line);
-      }
       const translateSubscription = this.translate.get(['save', 'add', 'check', 'cancel', 'wait']).subscribe(t => {
         const prompt = this.alertCtrl.create({
           title:  t.save + ' ' + event.title + '?',

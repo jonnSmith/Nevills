@@ -1,3 +1,16 @@
 .button-add-ball {
   width: 100%;
 }
+
+.list-item {
+  .list-item-number {
+    padding: 8px !important;
+  }
+  .list-item-description {
+    line-height: 2em;
+    padding-left: 10px;
+  }
+  .list-item-checked {
+
+  }
+}

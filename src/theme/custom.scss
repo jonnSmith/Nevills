@@ -1,3 +1,28 @@
+html{
+  body{
+    ion-content {
+      button {
+        &.button-nulled {
+          box-shadow: none !important;
+          background: none !important;
+          border: none !important;
+        }
+        &.button-left {
+          left: -15px;
+        }
+        &.button-right {
+          right: -15px;
+        }
+        &.button-list-control {
+          ion-icon {
+            font-size: 28px;
+          }
+        }
+      }
+    }
+  }
+}
+
 .scroll-content {
   >* {
     &:last-child {
