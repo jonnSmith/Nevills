@@ -6,6 +6,7 @@ import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {iEvent, iTodo, emptyTodo} from '../../interfaces/event.interface';
 import {Config} from '../../config.service';
+import {timeValidator} from "../../validators/time.validator";
 
 @Component({
   selector: 'event',
@@ -49,8 +50,8 @@ export class EventScreen implements OnInit {
     this.editEventForm = this.formBuilder.group({
       title: [evt.title, Validators.required],
       description: [evt.description, Validators.required],
-      start: [evt.start, Validators.required],
-      time: [evt.time, Validators.required],
+      start: [evt.start, [Validators.required]],
+      time: [evt.time, [Validators.required, timeValidator('start')]],
       photo: [evt.photo],
       list: this.formBuilder.array(listArray)
     });

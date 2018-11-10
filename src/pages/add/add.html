@@ -18,8 +18,8 @@
         <div [formGroupName]="i">
           <ion-item>
             <ion-input type="text" formControlName="description" placeholder="{{'todolistitem' | translate}} {{i+1}}" item-start></ion-input>
-            <button class="button-nulled button-right" type="button" *ngIf="i" (click)="removeListItem(i)" ion-button icon-only item-end>
-              <ion-icon name="ios-remove-circle" color="danger"></ion-icon>
+            <button  class="button-nulled button-right button-list-control" type="button" *ngIf="i" (click)="removeListItem(i)" ion-button icon-only item-end>
+              <ion-icon name="ios-close-circle" color="danger"></ion-icon>
             </button>
           </ion-item>
         </div>

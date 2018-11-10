@@ -6,6 +6,7 @@ import {AlertController, LoadingController, Tabs} from 'ionic-angular';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {Config} from '../../config.service';
+import {timeValidator} from "../../validators/time.validator";
 import {emptyTodo} from "../../interfaces/event.interface";
 
 @Component({
@@ -17,6 +18,8 @@ export class AddScreen implements OnInit {
   public dummyPhoto: String;
   private options: CameraOptions;
   private addEventForm: FormGroup;
+
+  public textForItem;
 
   constructor(private config: Config,
               private camera: Camera,
@@ -40,8 +43,8 @@ export class AddScreen implements OnInit {
     this.addEventForm = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      start: [this.datepipe.transform(new Date(), 'yyyy-MM-dd'), Validators.required],
-      time: [this.datepipe.transform(new Date(), 'HH:mm'), Validators.required],
+      start: [this.datepipe.transform(new Date(), 'yyyy-MM-dd'), [Validators.required]],
+      time: [this.datepipe.transform(new Date(), 'HH:mm'), [Validators.required, timeValidator('start')]],
       photo: [null],
       list: this.formBuilder.array([this.initItem()])
     });

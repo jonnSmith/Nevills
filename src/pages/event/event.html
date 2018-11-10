@@ -50,7 +50,7 @@
       <div formArrayName="list" *ngFor="let item of editEventForm.get('list').controls; let i = index;">
         <div [formGroupName]="i">
           <ion-item>
-            <ion-input type="text" formControlName="description" placeholder="{{'listitem' | translate}} {{i+1}}" item-start></ion-input>
+            <ion-input type="text" formControlName="description" placeholder="{{'todolistitem' | translate}} {{i+1}}" item-start></ion-input>
             <button class="button-nulled button-list-control" ion-button icon-only type="button" (click)="switchTodoListItem(i)" item-end outline>
               <ion-icon
                 name="{{ editEventForm.controls.list.controls[i].controls.checked.value ? 'ios-checkmark-circle' : 'ios-close-circle'}}"

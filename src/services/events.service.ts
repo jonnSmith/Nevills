@@ -61,7 +61,6 @@ export class EventsService {
         });
       } else {
         let events = localStorage.getItem(this.config.EVENTS_STORAGE_KEY);
-        console.log('events', events);
         this.events = events ? JSON.parse(events) : [];
         res(this.events);
       }
@@ -92,7 +91,6 @@ export class EventsService {
         } else {
           localStorage.setItem(this.config.EVENTS_STORAGE_KEY, JSON.stringify(this.events));
           this.currentDatestamp = evt.datestamp;
-          console.log();
           this.onEventsChange.emit(this.events);
           res();
         }

@@ -13,7 +13,7 @@
   "title": "Push title",
   "description": "Push description and details",
   "todolist": "Numbered todo list",
-  "listitem": "Item number ",
+  "todolistitem": "Item number ",
   "additem": "Add list item",
   "start": "What day",
   "time": "What time",
