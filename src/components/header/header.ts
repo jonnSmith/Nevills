@@ -19,37 +19,29 @@ export class HeaderComponent {
 
   }
 
-  setLanguage(lang) {
-    this.translate.use(lang);
-  }
-
   presentActionSheet() {
-    const translateSubscription = this.translate.get(['cancel', 'changelang']).subscribe(t => {
+    const translateSubscription = this.translate.get(['cancel', 'changelang', 'langs']).subscribe(t => {
+      let buttons = [];
+      for(let key of this.config.LANGUAGES) {
+        buttons.push({
+          text: t.langs[key],
+          handler: () => {
+            localStorage.setItem(this.config.LANG_KEY, key);
+            this.translate.use(key);
+            translateSubscription.unsubscribe();
+          }
+        });
+      }
+      buttons.push({
+        text: t.cancel,
+        role: 'cancel',
+        handler: () => {
+          translateSubscription.unsubscribe();
+        }
+      });
       const actionSheet = this.actionSheetCtrl.create({
         title: t.changelang,
-        buttons: [
-          {
-            text: 'Russian',
-            handler: () => {
-              localStorage.setItem(this.config.LANG_KEY, 'ru');
-              this.translate.use('ru');
-              translateSubscription.unsubscribe();
-            }
-          }, {
-            text: 'English',
-            handler: () => {
-              localStorage.setItem(this.config.LANG_KEY, 'en');
-              this.translate.use('en');
-              translateSubscription.unsubscribe();
-            }
-          }, {
-            text: t.cancel,
-            role: 'cancel',
-            handler: () => {
-              translateSubscription.unsubscribe();
-            }
-          }
-        ]
+        buttons: buttons
       });
       actionSheet.present();
     });

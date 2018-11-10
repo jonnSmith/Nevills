@@ -24,5 +24,9 @@
   "error": "Error happened:",
   "retry": "Retry",
   "NO_CONNECTION": "Internet is not connected",
-  "NO_TOKEN": "Push notification error"
+  "NO_TOKEN": "Push notification error",
+  "langs": {
+    "ru": "Russian",
+    "en": "English"
+  }
 }
