@@ -3,6 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Platform, AlertController, LoadingController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
+import {Keyboard} from '@ionic-native/keyboard';
 import {EventsService} from "./events.service";
 import {HttpService} from "./http.service";
 import {Config} from '../config.service';
@@ -20,6 +21,7 @@ export class StartupService {
   constructor(private loading: LoadingController,
               private statusBar: StatusBar,
               private splashScreen: SplashScreen,
+              private keyboard: Keyboard,
               private config: Config,
               private platform: Platform,
               private translate: TranslateService,
@@ -52,8 +54,11 @@ export class StartupService {
       return this.events.init();
     }).then( (data: Array<iEvent>) => {
       console.log('events', data);
-      this.statusBar.styleLightContent();
-      this.splashScreen.hide();
+      if (window['cordova']) {
+        this.statusBar.styleLightContent();
+        this.splashScreen.hide();
+        this.keyboard.disableScroll(true);
+      }
       this.loader.dismiss();
     }).catch(error => {
       const translateSubscription = this.translate.get(['error', 'retry', 'NO_CONNECTION', 'NO_TOKEN']).subscribe(t => {

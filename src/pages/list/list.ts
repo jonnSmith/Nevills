@@ -30,6 +30,10 @@ export class ListScreen {
       this.events = evts.sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
       this.cd.detectChanges();
     });
+    this.eventService.onEventsPushed.subscribe((id) => {
+      this.nav.popToRoot();
+      this.nav.push(EventScreen, {id: id});
+    });
     setInterval(() => {
       this.datestamp = new Date().setSeconds(0,0);
       this.cd.detectChanges();

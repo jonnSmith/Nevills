@@ -13,6 +13,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {Camera} from '@ionic-native/camera';
 import {File} from '@ionic-native/file';
 import {Autostart} from '@ionic-native/autostart';
+import {Keyboard} from '@ionic-native/keyboard';
 
 import {NevillsApp} from './app.component';
 
@@ -79,6 +80,7 @@ export function createTranslateLoader(http: HttpClient) {
     Camera,
     Autostart,
     File,
+    Keyboard,
     StatusBar,
     SplashScreen,
     DatePipe,

@@ -7,8 +7,10 @@
     padding: 8px !important;
   }
   .list-item-description {
-    line-height: 2em;
+    vertical-align: bottom;
     padding-left: 10px;
+    height: 25px;
+    display: inline-block;
   }
   .list-item-checked {
 

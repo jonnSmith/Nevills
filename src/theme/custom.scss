@@ -1,6 +1,10 @@
 html{
   body{
     ion-content {
+      >.scroll-content {
+        height: auto;
+        padding-bottom: 0 !important;
+      }
       button {
         &.button-nulled {
           box-shadow: none !important;

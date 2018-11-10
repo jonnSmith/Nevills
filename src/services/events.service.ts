@@ -12,6 +12,7 @@ export class EventsService {
 
   public events: Array<iEvent> = [];
   public onEventsChange: EventEmitter<Array<iEvent>> = new EventEmitter();
+  public onEventsPushed: EventEmitter<String> = new EventEmitter();
   public currentDatestamp: string;
 
   constructor(private config: Config,

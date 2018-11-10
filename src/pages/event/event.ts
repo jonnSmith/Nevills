@@ -32,6 +32,9 @@ export class EventScreen implements OnInit {
   ) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
+    this.eventService.onEventsChange.subscribe((evts) => {
+      this.nav.popToRoot();
+    });
   }
 
   ngOnInit() {
@@ -108,7 +111,6 @@ export class EventScreen implements OnInit {
               this.eventService.pop(this.event).then(_ => {
                 loader.dismiss();
                 this.cd.detectChanges();
-                this.nav.pop();
               });
               translateSubscription.unsubscribe();
             }
@@ -145,7 +147,6 @@ export class EventScreen implements OnInit {
                   this.setFromGroup();
                   loader.dismiss();
                   this.cd.detectChanges();
-                  this.nav.pop();
                   translateSubscription.unsubscribe();
                 });
               }
