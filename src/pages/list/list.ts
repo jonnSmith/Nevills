@@ -25,6 +25,10 @@ export class ListScreen implements OnInit {
               private cd: ChangeDetectorRef
   ) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
+    this.eventService.onEventsPushed.subscribe((id) => {
+      this.nav.popToRoot();
+      this.nav.push(EventScreen, {id: id});
+    });
   }
 
   private static sortEvents(a: iEvent, b: iEvent) {
