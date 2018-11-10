@@ -1,5 +1,10 @@
 import {FormControl} from '@angular/forms';
 
+/**
+ * Custom reactive form validator for time field to disable outdated event saving
+ * @param {string} dateFieldKey Filed key in event form for date field to get full event date
+ * @returns {(control: FormControl) => {timeValidator: {expired: boolean}}} Returns error when current date is bigger then event full date
+ */
 
 export function timeValidator (dateFieldKey: string) {
 

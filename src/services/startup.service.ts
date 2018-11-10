@@ -32,14 +32,15 @@ export class StartupService {
   }
 
   /**
-   * Main application initialization routine. Called before angular app starts
-   * @returns {Promise<any>}
+   * Main application initialization routine. Called on angular app root component loaded
    */
   public init(): void {
+    // Set loader if it is not set before
     if(!this.loader) {
       this.loader = this.loading.create();
       this.loader.present();
     }
+    // Promise chain for app initialization - device ready, translation, FCM registration, events loaded from storage and device interface setup
     this.platform.ready().then(() => {
       this.http.listenOnlineOffline();
       return this.initTranslation();
@@ -61,6 +62,7 @@ export class StartupService {
       }
       this.loader.dismiss();
     }).catch(error => {
+      // Display prompt if some in chain goes wrong to recursion retry
       const translateSubscription = this.translate.get(['error', 'retry', 'NO_CONNECTION', 'NO_TOKEN']).subscribe(t => {
         const prompt = this.alertCtrl.create({
           title: t.error,
@@ -82,7 +84,7 @@ export class StartupService {
 
   /**
    * Initialize tranlsations
-   * @returns {Promise<any>}
+   * @returns {Promise<any>} Fulfilled on translate config language is setted up
    */
   public initTranslation(): Promise<any> {
     this.translate.addLangs(this.config.LANGUAGES);

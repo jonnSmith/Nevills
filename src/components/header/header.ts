@@ -9,8 +9,8 @@ import {Config} from '../../config.service';
 })
 export class HeaderComponent {
 
+  // Title locale key input for display in header with translation
   @Input('title') title: string;
-  language: true;
 
   constructor(
     private config: Config,
@@ -19,9 +19,15 @@ export class HeaderComponent {
 
   }
 
+  /**
+   * Show translatable locale selection menu by click on menu button
+   */
   presentActionSheet() {
+    // Get translates by keys subscription
     const translateSubscription = this.translate.get(['cancel', 'changelang', 'langs']).subscribe(t => {
+      // Create buttons array with callbacks
       let buttons = [];
+      // Set language change buttons from config languages keys
       for(let key of this.config.LANGUAGES) {
         buttons.push({
           text: t.langs[key],
@@ -32,6 +38,7 @@ export class HeaderComponent {
           }
         });
       }
+      // Add cancel button
       buttons.push({
         text: t.cancel,
         role: 'cancel',
@@ -39,6 +46,7 @@ export class HeaderComponent {
           translateSubscription.unsubscribe();
         }
       });
+      // Create and present prompt
       const actionSheet = this.actionSheetCtrl.create({
         title: t.changelang,
         buttons: buttons

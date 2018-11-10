@@ -15,6 +15,7 @@ import {emptyTodo} from "../../interfaces/event.interface";
 })
 export class AddScreen implements OnInit {
 
+  // Dummy photo hex from config for photo placeholder
   public dummyPhoto: String;
   private options: CameraOptions;
   private addEventForm: FormGroup;
@@ -35,9 +36,21 @@ export class AddScreen implements OnInit {
 
   ngOnInit() {
     this.setupForm();
+    // Update validator for time field to disable adding outdated event
     setInterval(()=> { this.addEventForm.controls['time'].updateValueAndValidity(); }, this.config.INTERVAL);
   }
 
+  /**
+   * Clear form on every component load
+   */
+  ionViewWillEnter() {
+    this.setupForm();
+    this.cd.detectChanges();
+  }
+
+  /**
+   * Create dynamic form with extendable list and time custom validator
+   */
   setupForm() {
     this.addEventForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -49,15 +62,36 @@ export class AddScreen implements OnInit {
     });
   }
 
+  /**
+   * Create new empty list item
+   * @returns {FormGroup} List item form group with empty fields
+   */
   initItem() {
     return this.formBuilder.group(emptyTodo);
   }
 
-  ionViewWillEnter() {
-    this.setupForm();
+  /**
+   * Add list item form group to list control
+   */
+  addListItem() {
+    const control = < FormArray > this.addEventForm.controls['list'];
+    control.push(this.initItem());
     this.cd.detectChanges();
   }
 
+  /**
+   * Remove list item from list
+   * @param {number} i Item index in list array
+   */
+  removeListItem(i: number) {
+    const control = < FormArray > this.addEventForm.controls['list'];
+    control.removeAt(i);
+    this.cd.detectChanges();
+  }
+
+  /**
+   * Take photo from camera and pass saved path on device to form field
+   */
   takePhoto() {
     if(window['cordova']) {
       this.camera.getPicture(this.options).then((imageData) => {
@@ -67,9 +101,15 @@ export class AddScreen implements OnInit {
     }
   }
 
+  /**
+   * Add event with alert prompt
+   */
   addEvent() {
+    // Deep copy form value to avoid closures
     let event = {...this.addEventForm.value};
+    // Check errors
     if(!this.addEventForm.errors) {
+      // Get translations by keys
       const translateSubscription = this.translate.get(['save', 'add', 'check', 'cancel', 'wait']).subscribe(t => {
         const prompt = this.alertCtrl.create({
           title: t.add + ' ' + event.title + '?',
@@ -89,6 +129,7 @@ export class AddScreen implements OnInit {
                 });
                 loader.present();
                 translateSubscription.unsubscribe();
+                // Push new event to backend and local data, clean form and open tab with events list after promise fulfilled
                 this.eventService.push(event).then(_ => {
                   this.addEventForm.reset();
                   loader.dismiss();
@@ -106,18 +147,6 @@ export class AddScreen implements OnInit {
     } else {
       console.log('FORM ERROR', this.addEventForm.errors)
     }
-  }
-
-  addListItem() {
-    const control = < FormArray > this.addEventForm.controls['list'];
-    control.push(this.initItem());
-    this.cd.detectChanges();
-  }
-
-  removeListItem(i: number) {
-    const control = < FormArray > this.addEventForm.controls['list'];
-    control.removeAt(i);
-    this.cd.detectChanges();
   }
 
 }

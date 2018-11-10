@@ -1,8 +1,10 @@
+// List item data structure with checkbox param
 export interface iTodo {
   checked: boolean;
   description: string;
 }
 
+// Event data structure
 export interface iEvent {
   id: string;
   title: string;
@@ -16,7 +18,8 @@ export interface iEvent {
   list: Array<iTodo>
 }
 
+// Dummy item for dynamic list extend
 export const emptyTodo = {
   description: '',
   checked: false
-}
+};

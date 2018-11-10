@@ -1,5 +1,9 @@
 import {Injectable} from '@angular/core';
 
+/**
+ * Service for configuration variables and constants storing
+ */
+
 @Injectable()
 export class Config {
   public backend = {

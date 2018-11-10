@@ -21,7 +21,6 @@ export class HttpService {
    * Create event listener for oniline/offline network state
    */
   public listenOnlineOffline() {
-    // console.log(navigator);
     this.updateNetworkStatus(navigator.onLine);
     document.addEventListener('online',  () => this.updateNetworkStatus(true), false);
     document.addEventListener('offline',  () => this.updateNetworkStatus(false), false);
@@ -29,17 +28,19 @@ export class HttpService {
 
   /**
    * Update network status
-   * @param {boolean} isOnline
+   * @param {boolean} isOnline Online status bool variable - true if online
    */
   private updateNetworkStatus(isOnline: boolean) {
     this._isOnline = isOnline;
     this.networkStatus.emit(isOnline);
   }
 
+  // Online status getter
   get isOnline(): boolean {
     return this._isOnline;
   }
 
+  // Online status setter
   set isOnline(value: boolean) {
     this._isOnline = value;
   }

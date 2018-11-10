@@ -9,6 +9,7 @@ export class NevillsApp {
   rootPage: any = TabsPage;
 
   constructor(private start: StartupService) {
+    // Run startup service function on application load
     this.start.init();
   }
 

@@ -1,11 +1,13 @@
 list {
   ion-list {
     ion-item {
+      // Hide outdated mark icon on usual events
       ion-avatar {
         ion-icon {
           display: none;
         }
       }
+      // Styling outdated event item - display icon and highlight time
       &.outdated {
         ion-avatar {
           position: relative;

@@ -1,10 +1,12 @@
 html{
   body{
     ion-content {
+      // Scroll content fix for avoid inifinite scroll on Android when keyboard is active
       >.scroll-content {
         height: auto;
         padding-bottom: 0 !important;
       }
+      // Fix list item control button area width and display
       .list-item {
         ion-item {
           .item-inner {
@@ -13,6 +15,7 @@ html{
           }
         }
       }
+      // Add clean button due to ion-list icon-only button directive bug
       button {
         &.button-nulled {
           box-shadow: none !important;
@@ -36,6 +39,7 @@ html{
 }
 
 .scroll-content {
+  // Scroll content margin for nav tabs container ranging
   >* {
     &:last-child {
       margin-bottom:80px;
@@ -43,6 +47,7 @@ html{
   }
 }
 
+// Fullcalendar global styling fixes for avoid unnecessary scroll
 ng-fullcalendar {
   .fc-header-toolbar {
     margin-bottom: 0 !important;
