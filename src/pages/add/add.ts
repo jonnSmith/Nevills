@@ -35,7 +35,7 @@ export class AddScreen implements OnInit {
 
   ngOnInit() {
     this.setupForm();
-    setInterval(()=> { this.addEventForm.controls['time'].updateValueAndValidity(); }, 1000 * 30);
+    setInterval(()=> { this.addEventForm.controls['time'].updateValueAndValidity(); }, this.config.INTERVAL);
   }
 
   setupForm() {

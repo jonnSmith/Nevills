@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {ActionSheetController} from 'ionic-angular';
+import {Config} from '../../config.service';
 
 @Component({
   selector: 'header-component',
@@ -12,6 +13,7 @@ export class HeaderComponent {
   language: true;
 
   constructor(
+    private config: Config,
     private translate: TranslateService,
     private actionSheetCtrl: ActionSheetController) {
 
@@ -22,29 +24,35 @@ export class HeaderComponent {
   }
 
   presentActionSheet() {
-    const actionSheet = this.actionSheetCtrl.create({
-      title: 'Change language',
-      buttons: [
-        {
-          text: 'Russian',
-          handler: () => {
-            this.translate.use('ru');
+    const translateSubscription = this.translate.get(['cancel', 'changelang']).subscribe(t => {
+      const actionSheet = this.actionSheetCtrl.create({
+        title: t.changelang,
+        buttons: [
+          {
+            text: 'Russian',
+            handler: () => {
+              localStorage.setItem(this.config.LANG_KEY, 'ru');
+              this.translate.use('ru');
+              translateSubscription.unsubscribe();
+            }
+          }, {
+            text: 'English',
+            handler: () => {
+              localStorage.setItem(this.config.LANG_KEY, 'en');
+              this.translate.use('en');
+              translateSubscription.unsubscribe();
+            }
+          }, {
+            text: t.cancel,
+            role: 'cancel',
+            handler: () => {
+              translateSubscription.unsubscribe();
+            }
           }
-        }, {
-          text: 'English',
-          handler: () => {
-            this.translate.use('en');
-          }
-        }, {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-
-          }
-        }
-      ]
+        ]
+      });
+      actionSheet.present();
     });
-    actionSheet.present();
   }
 
 }

@@ -43,25 +43,30 @@ export class EventsService {
             this.file.readAsText(this.file.dataDirectory, this.config.filename).then((data) => {
               // console.log('read', data);
               this.events = data ? JSON.parse(data) : [];
+              this.onEventsChange.emit(this.events);
               res();
             }, (err) => {
               console.log('file read error', err);
               this.events = [];
+              this.onEventsChange.emit(this.events);
               res(this.events);
             });
           } else {
             // console.log('empty file');
             this.events = [];
+            this.onEventsChange.emit(this.events);
             res(this.events);
           }
         }, (err) => {
           console.log('file check error', err);
           this.events = [];
+          this.onEventsChange.emit(this.events);
           res(this.events);
         });
       } else {
         let events = localStorage.getItem(this.config.EVENTS_STORAGE_KEY);
         this.events = events ? JSON.parse(events) : [];
+        this.onEventsChange.emit(this.events);
         res(this.events);
       }
     });

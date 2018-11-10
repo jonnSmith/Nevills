@@ -1,16 +1,17 @@
 <header-component [title]="'list' | translate"></header-component>
 <ion-content padding>
   <ion-list *ngIf="events.length">
-    <ion-item  *ngFor="let e of events;">
+    <ion-item  *ngFor="let e of events;"  [ngClass]="(e.datestamp | outdated: datestamp) ? 'outdated' : ''">
       <ion-avatar item-start (click)="openEvent(e.id)">
+        <ion-icon name="md-power" color="danger"></ion-icon>
         <img [src]="e.photo ? e.photo : dummyPhoto">
       </ion-avatar>
       <div class="item-info" (click)="openEvent(e.id)">
-        <h2>{{e.title}} <span *ngIf="e.datestamp | outdated: datestamp">{{'outdated' | translate}}</span></h2>
-        <h3>{{e.start}} {{e.time}}</h3>
+        <h2>{{e.title}}</h2>
+        <h3 class="time">{{e.start}} {{e.time}}</h3>
         <p>{{e.description}}</p>
       </div>
-      <ion-icon name="ios-close-circle" color="danger" item-end (click)="popEvent(e)"></ion-icon>
+      <ion-icon name="ios-remove-circle" color="danger" item-end (click)="popEvent(e)"></ion-icon>
     </ion-item>
   </ion-list>
 </ion-content>

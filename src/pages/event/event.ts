@@ -33,7 +33,7 @@ export class EventScreen implements OnInit {
   ) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
-    this.eventService.onEventsChange.subscribe((evts) => {
+    this.eventService.onEventsChange.subscribe(_ => {
       this.nav.popToRoot();
     });
   }
@@ -41,8 +41,9 @@ export class EventScreen implements OnInit {
   ngOnInit() {
     const id = this.params.get('id');
     this.event = this.eventService.getEvent(id);
+    if(!this.event) this.nav.popToRoot();
     this.setFromGroup();
-    setInterval(()=> { this.editEventForm.controls['time'].updateValueAndValidity(); }, 1000 * 30);
+    setInterval(()=> { this.editEventForm.controls['time'].updateValueAndValidity(); }, this.config.INTERVAL);
   }
 
   setFromGroup() {

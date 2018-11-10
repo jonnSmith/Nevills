@@ -1,5 +1,5 @@
 <ion-tabs #navTabs>
   <ion-tab [root]="tab1Root" tabTitle="{{'add' | translate}}" tabIcon="md-add-circle"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="{{'list' | translate}}" tabIcon="md-clipboard"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="{{'list' | translate}}" tabBadge="{{activeEvents}}" tabBadgeStyle="{{activeEvents ? 'primary' : 'light'}}" tabIcon="md-clipboard"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="{{'calendar' | translate}}" tabIcon="md-calendar"></ion-tab>
 </ion-tabs>

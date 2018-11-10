@@ -1,4 +1,4 @@
-import {Component, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectorRef, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {EventsService} from '../../services/events.service';
 import {AlertController, NavController, LoadingController} from 'ionic-angular';
@@ -10,7 +10,7 @@ import {Config} from '../../config.service';
   selector: 'list',
   templateUrl: 'list.html'
 })
-export class ListScreen {
+export class ListScreen implements OnInit {
 
   public dummyPhoto: String;
   public events:Array<iEvent> = [];
@@ -25,25 +25,23 @@ export class ListScreen {
               private cd: ChangeDetectorRef
   ) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
-    this.events = this.eventService.get().sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
-    this.eventService.onEventsChange.subscribe((evts) => {
-      this.events = evts.sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
-      this.cd.detectChanges();
-    });
-    this.eventService.onEventsPushed.subscribe((id) => {
-      this.nav.popToRoot();
-      this.nav.push(EventScreen, {id: id});
-    });
-    setInterval(() => {
-      this.datestamp = new Date().setSeconds(0,0);
-      this.cd.detectChanges();
-    }, 30000);
   }
 
   private static sortEvents(a: iEvent, b: iEvent) {
     if (parseInt(a.datestamp) > parseInt(b.datestamp)) return -1;
     else if (parseInt(a.datestamp) < parseInt(b.datestamp)) return 1;
     else return 0;
+  }
+
+  ngOnInit() {
+    this.eventService.onEventsChange.subscribe((evts) => {
+      this.events = evts.sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
+      this.cd.detectChanges();
+    });
+    setInterval(() => {
+      this.datestamp = new Date().setSeconds(0,0);
+      this.cd.detectChanges();
+    }, this.config.INTERVAL);
   }
 
   ionViewWillEnter() {
