@@ -1,7 +1,7 @@
 {
   "name": "Nevills",
   "version": "0.0.1",
-  "author": "Vard's family",
+  "author": "Vardinika",
   "homepage": "https://github.com/jonnSmith",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
     "lint": "ionic-app-scripts lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:ci": "jest --runInBand"
+    "test:ci": "jest --runInBand",
+    "compodoc": "./node_modules/.bin/compodoc -p tsconfig.json -w -s"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -60,7 +61,8 @@
     "typescript": "~2.6.2",
     "jest": "^23.6.0",
     "jest-preset-angular": "~6.0.1",
-    "@types/jest": "^23.3.8"
+    "@types/jest": "^23.3.8",
+    "@compodoc/compodoc": "^1.1.6"
   },
   "description": "An Ionic project",
   "cordova": {

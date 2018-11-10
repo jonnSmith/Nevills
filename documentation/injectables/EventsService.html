@@ -1,0 +1,1067 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Nevills documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Nevills documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>EventsService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/services/events.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Events service.</p>
+
+            </p>
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#events">events</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onEventsChange">onEventsChange</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#onEventsPushed">onEventsPushed</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#generateRandomId">generateRandomId</a>
+                            </li>
+                            <li>
+                                <a href="#get">get</a>
+                            </li>
+                            <li>
+                                <a href="#getEvent">getEvent</a>
+                            </li>
+                            <li>
+                                <a href="#init">init</a>
+                            </li>
+                            <li>
+                                <a href="#pop">pop</a>
+                            </li>
+                            <li>
+                                <a href="#push">push</a>
+                            </li>
+                            <li>
+                                <a href="#put">put</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(config: <a href="../injectables/Config.html">Config</a>, http: <a href="../injectables/HttpService.html">HttpService</a>, file: File)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/services/events.service.ts:18</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/Config.html" target="_self" >Config</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/HttpService.html" target="_self" >HttpService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>file</td>
+                                                  
+                                                        <td>
+                                                                    <code>File</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="generateRandomId"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Static</span>
+                            generateRandomId
+                            </b>
+                            <a href="#generateRandomId"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>generateRandomId()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/services/events.service.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="get"></a>
+                        <span class="name">
+                            <b>
+                            get
+                            </b>
+                            <a href="#get"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>get()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="203" class="link-to-prism">src/services/events.service.ts:203</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getEvent"></a>
+                        <span class="name">
+                            <b>
+                            getEvent
+                            </b>
+                            <a href="#getEvent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getEvent(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank">String</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">src/services/events.service.ts:212</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Getter for event object by unique id</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>id</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" >String</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                        <td>
+                                                                <code><p>Event id</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    <p>Event object from service stored array</p>
+
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="init"></a>
+                        <span class="name">
+                            <b>
+                            init
+                            </b>
+                            <a href="#init"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>init()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/services/events.service.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Init function with read local stored events from file on device or local storage on debug web mode</p>
+</div>
+
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    <p>Get events from ionic storage or set empty array</p>
+
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="pop"></a>
+                        <span class="name">
+                            <b>
+                            pop
+                            </b>
+                            <a href="#pop"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>pop(event: <a href="../interfaces/iEvent.html">iEvent</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">src/services/events.service.ts:127</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Delete event from backend and storage by datestamp and id</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/iEvent.html" target="_self" >iEvent</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="push"></a>
+                        <span class="name">
+                            <b>
+                            push
+                            </b>
+                            <a href="#push"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>push(event: <a href="../interfaces/iEvent.html">iEvent</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">src/services/events.service.ts:87</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Save new event on backed and in storage - file or local storage in debug</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/iEvent.html" target="_self" >iEvent</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="put"></a>
+                        <span class="name">
+                            <b>
+                            put
+                            </b>
+                            <a href="#put"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>put(newevent: <a href="../interfaces/iEvent.html">iEvent</a>, oldevent: <a href="../interfaces/iEvent.html">iEvent</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="157" class="link-to-prism">src/services/events.service.ts:157</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Update event - delete old record and push new to backend and storage</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>newevent</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/iEvent.html" target="_self" >iEvent</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                        <td>
+                                                                <code><p>Updated event object</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>oldevent</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/iEvent.html" target="_self" >iEvent</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                        <td>
+                                                                <code><p>Old event object for delete from backend by datestamp and id</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    <p>Fulfilled then events successfully cleaned up and saved on backend and in storage</p>
+
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="events"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            events
+                            </b>
+                            <a href="#events"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>events:     <code><a href="../interfaces/iEvent.html" target="_self" >Array&lt;iEvent&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/iEvent.html" target="_self" >Array&lt;iEvent&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/services/events.service.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onEventsChange"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            onEventsChange
+                            </b>
+                            <a href="#onEventsChange"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>onEventsChange:     <code><a href="../interfaces/iEvent.html" target="_self" >EventEmitter&lt;Array&lt;iEvent&gt;&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/iEvent.html" target="_self" >EventEmitter&lt;Array&lt;iEvent&gt;&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new EventEmitter()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/services/events.service.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="onEventsPushed"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            onEventsPushed
+                            </b>
+                            <a href="#onEventsPushed"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>onEventsPushed:     <code>EventEmitter&lt;String&gt;</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;String&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new EventEmitter()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/services/events.service.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {Injectable, EventEmitter} from &#x27;@angular/core&#x27;;
+import {File} from &#x27;@ionic-native/file&#x27;;
+import {iEvent} from &#x27;../interfaces/event.interface&#x27;;
+import {HttpService} from &#x27;./http.service&#x27;
+import {Config} from &#x27;../config.service&#x27;;
+
+/**
+ * Events service.
+ */
+@Injectable()
+export class EventsService {
+
+  // Events array storage
+  public events: Array&lt;iEvent&gt; &#x3D; [];
+  // Emitter for changes in events array notifying
+  public onEventsChange: EventEmitter&lt;Array&lt;iEvent&gt;&gt; &#x3D; new EventEmitter();
+  // Emitter for pass push event from tabs to list component
+  public onEventsPushed: EventEmitter&lt;String&gt; &#x3D; new EventEmitter();
+
+  constructor(private config: Config,
+              private http: HttpService,
+              private file: File) {
+  }
+
+  // Generate random id based on timestamp, random 4* digit and string shuffle
+  static generateRandomId() {
+    return ((new Date).getTime() + Math.floor(1000 + Math.random() * 9000))
+        .toString()
+        .split(&#x27;&#x27;)
+        .sort(function () {
+          return 0.5 - Math.random()
+        })
+        .join(&#x27;&#x27;);
+  }
+
+  /**
+   * Init function with read local stored events from file on device or local storage on debug web mode
+   * @returns {Promise&lt;any&gt;} Get events from ionic storage or set empty array
+   */
+  init() {
+    return new Promise((res) &#x3D;&gt; {
+      if(window[&#x27;cordova&#x27;]) {
+        this.file.checkFile(this.file.dataDirectory, this.config.filename).then((flag) &#x3D;&gt; {
+          if(flag) {
+            // Read file after EOF reached in promise and set file data to events store
+            this.file.readAsText(this.file.dataDirectory, this.config.filename).then((data) &#x3D;&gt; {
+              this.events &#x3D; data ? JSON.parse(data) : [];
+              // Notify on events changed
+              this.onEventsChange.emit(this.events);
+              res();
+            }, (err) &#x3D;&gt; {
+              console.log(&#x27;file read error&#x27;, err);
+              this.events &#x3D; [];
+              // Notify on events changed
+              this.onEventsChange.emit(this.events);
+              res(this.events);
+            });
+          } else {
+            this.events &#x3D; [];
+            // Notify on events changed
+            this.onEventsChange.emit(this.events);
+            res(this.events);
+          }
+        }, (err) &#x3D;&gt; {
+          console.log(&#x27;file check error&#x27;, err);
+          this.events &#x3D; [];
+          // Notify on events changed
+          this.onEventsChange.emit(this.events);
+          res(this.events);
+        });
+      } else {
+        // Get saved events from local storage in web debug mode
+        let events &#x3D; localStorage.getItem(this.config.EVENTS_STORAGE_KEY);
+        this.events &#x3D; events ? JSON.parse(events) : [];
+        // Notify on events changed
+        this.onEventsChange.emit(this.events);
+        res(this.events);
+      }
+    });
+  }
+
+  /**
+   * Save new event on backed and in storage - file or local storage in debug
+   * @param {iEvent} event
+   * @returns {Promise&lt;any&gt;}
+   */
+  push(event: iEvent) {
+    return new Promise((res, rej) &#x3D;&gt; {
+      // Extend event object data with generated id and datestamp from start and time params
+      const evt &#x3D; {
+        ...Object.assign({}, event),
+        ...{
+          id: EventsService.generateRandomId(),
+          datestamp: new Date(event.start + &#x27; &#x27; + event.time).getTime().toString()
+        }
+      };
+      evt.list &#x3D; evt.list.filter((e) &#x3D;&gt; e &amp;&amp; e.description);
+      evt.token &#x3D; localStorage.getItem(this.config.STORAGE_FCM_TOKEN_KEY);
+      evt.id &#x3D; evt.id + evt.token;
+      // Send event complete object to backend and update stored value on promise fulfilled
+      this.http.post(this.config.backend.host + this.config.backend.api.layer, evt).then( _ &#x3D;&gt; {
+        this.events.push(evt);
+        if(window[&#x27;cordova&#x27;]) {
+          this.file.writeFile(this.file.dataDirectory, this.config.filename, JSON.stringify(this.events), {replace: true}).then(_ &#x3D;&gt; {
+            // Notify on events changed
+            this.onEventsChange.emit(this.events);
+            res();
+          });
+        } else {
+          localStorage.setItem(this.config.EVENTS_STORAGE_KEY, JSON.stringify(this.events));
+          // Notify on events changed
+          this.onEventsChange.emit(this.events);
+          res();
+        }
+      }, (err) &#x3D;&gt; {
+        console.log(&#x27;http error post&#x27;, err);
+        rej(err);
+      });
+    });
+  }
+
+  /**
+   * Delete event from backend and storage by datestamp and id
+   * @param {iEvent} event
+   * @returns {Promise&lt;any&gt;}
+   */
+  pop(event: iEvent) {
+    return new Promise((res) &#x3D;&gt; {
+      // Delete event from backend and from stored value on promise fulfilled
+      this.http.post(this.config.backend.host + this.config.backend.api.layer + &#x27;delete&#x27;, event).then( _ &#x3D;&gt; {
+        this.events &#x3D; this.events.filter(e &#x3D;&gt; e.id !&#x3D;&#x3D; event.id);
+        if(window[&#x27;cordova&#x27;]) {
+          this.file.writeFile(this.file.dataDirectory, this.config.filename, JSON.stringify(this.events), {replace: true}).then(_ &#x3D;&gt; {
+            // Notify on events changed
+            this.onEventsChange.emit(this.events);
+            res();
+          });
+        } else {
+          localStorage.setItem(this.config.EVENTS_STORAGE_KEY, JSON.stringify(this.events));
+          // Notify on events changed
+          this.onEventsChange.emit(this.events);
+          res();
+        }
+      }, (err) &#x3D;&gt; {
+        console.log(&#x27;http error post&#x27;, err);
+        res();
+      });
+    });
+  }
+
+  /**
+   * Update event - delete old record and push new to backend and storage
+   * @param {iEvent} newevent Updated event object
+   * @param {iEvent} oldevent Old event object for delete from backend by datestamp and id
+   * @returns {Promise&lt;any&gt;} Fulfilled then events successfully cleaned up and saved on backend and in storage
+   */
+  put(newevent: iEvent, oldevent: iEvent) {
+    // Promise chain - delete from backend, update object data, push to backend and update stored value
+    return new Promise((res) &#x3D;&gt; {
+      this.http.post(this.config.backend.host + this.config.backend.api.layer + &#x27;delete&#x27;, oldevent).then( _ &#x3D;&gt; {
+        // Extend edited event with new params for backend saving
+        const evt &#x3D; {
+          ...Object.assign({}, newevent),
+          ...{
+            id: EventsService.generateRandomId(),
+            datestamp: new Date(newevent.start + &#x27; &#x27; + newevent.time).getTime().toString()
+          }
+        };
+        evt.list &#x3D; evt.list.filter((e) &#x3D;&gt; e &amp;&amp; e.description);
+        evt.token &#x3D; localStorage.getItem(this.config.STORAGE_FCM_TOKEN_KEY);
+        evt.id &#x3D; evt.id + evt.token;
+        this.http.post(this.config.backend.host + this.config.backend.api.layer, evt).then(_ &#x3D;&gt; {
+          this.events &#x3D; this.events.map((e) &#x3D;&gt; {
+            if (e.id &#x3D;&#x3D;&#x3D; oldevent.id) {
+              Object.assign(e, evt);
+            }
+            return e;
+          });
+          if(window[&#x27;cordova&#x27;]) {
+            this.file.writeFile(this.file.dataDirectory, this.config.filename, JSON.stringify(this.events), {replace: true}).then(_ &#x3D;&gt; {
+              // Notify on events changed
+              this.onEventsChange.emit(this.events);
+              res();
+            });
+          } else {
+            localStorage.setItem(this.config.EVENTS_STORAGE_KEY, JSON.stringify(this.events));
+            // Notify on events changed
+            this.onEventsChange.emit(this.events);
+            res();
+          }
+        }, (err) &#x3D;&gt; {
+          console.log(&#x27;http error post&#x27;, err);
+          res();
+        });
+      }, (err) &#x3D;&gt; {
+        console.log(&#x27;http error del&#x27;, err);
+        res();
+      });
+    });
+  }
+
+  // Events array service stored getter
+  get() {
+    return this.events;
+  }
+
+  /**
+   * Getter for event object by unique id
+   * @param {String} id Event id
+   * @returns {iEvent} Event object from service stored array
+   */
+  getEvent(id: String) {
+    return this.events.find((e) &#x3D;&gt; e.id &#x3D;&#x3D;&#x3D; id);
+  }
+
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'EventsService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
