@@ -1,6 +1,6 @@
 {
   "name": "Nevills",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Vardinika",
   "homepage": "https://github.com/jonnSmith",
   "private": true,
@@ -8,6 +8,7 @@
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
+    "apk": "ionic cordova build android",
     "lint": "ionic-app-scripts lint",
     "test": "jest",
     "test:watch": "jest --watch",

@@ -13,6 +13,10 @@ import {timeValidator} from "../../validators/time.validator";
   selector: 'event',
   templateUrl: 'event.html'
 })
+
+/**
+ * Event object information display and edit screen component
+ */
 export class EventScreen implements OnInit, OnDestroy {
 
   // Dummy photo hex from config for photo placeholder
@@ -39,7 +43,7 @@ export class EventScreen implements OnInit, OnDestroy {
   ) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     this.options = this.config.CAMERA_OPTIONS;
-
+    // Subscribe to events change emitter for close page after delete event or add new
     const eventsSub = this.eventService.onEventsChange.subscribe(_ => {
       this.nav.popToRoot();
     });
@@ -212,8 +216,10 @@ export class EventScreen implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Unsubscribe from all subscriptions after component destroy
+   */
   ngOnDestroy() {
-    // Unsubscribe from all subscriptions
     this._subscriptions.map(subscription => subscription.unsubscribe());
   }
 

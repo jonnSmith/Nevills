@@ -2,8 +2,12 @@ import {Injectable, EventEmitter} from '@angular/core';
 import {Config} from '../config.service';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
+// Cache basic scope variable declare
 let CACHE = {};
 
+/**
+ * Http service for caching data and check online status
+ */
 @Injectable()
 export class HttpService {
 
@@ -35,12 +39,18 @@ export class HttpService {
     this.networkStatus.emit(isOnline);
   }
 
-  // Online status getter
+  /**
+   * Online status getter
+   * @returns {boolean} Current online status
+   */
   get isOnline(): boolean {
     return this._isOnline;
   }
 
-  // Online status setter
+  /**
+   * Online status setter
+   * @param {boolean} value New online status value
+   */
   set isOnline(value: boolean) {
     this._isOnline = value;
   }

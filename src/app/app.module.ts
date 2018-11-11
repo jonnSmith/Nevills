@@ -34,7 +34,7 @@ import {Config} from '../config.service';
 import {OutdatedPipe} from '../pipes/outdated';
 
 /**
- * Translation setup
+ * Translation files setup
  */
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

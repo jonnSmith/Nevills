@@ -12,8 +12,13 @@ import {Config} from '../../config.service';
 @Component({
   templateUrl: 'tabs.html'
 })
+
+/**
+ * Root component for tab navigation between screens
+ */
 export class TabsPage implements OnInit, OnDestroy {
 
+  // Tab element reference for select concrete tab call
   @ViewChild('navTabs') tabRef: Tabs;
 
   tab1Root = AddScreen;
@@ -35,7 +40,7 @@ export class TabsPage implements OnInit, OnDestroy {
     private push: PushService,
     private cd: ChangeDetectorRef
   ) {
-    // Subscribe for update active events counter
+    // Subscribe for update active events counter badge
     const eventsSub = this.eventService.onEventsChange.subscribe((evts) => {
       this.activeEvents = evts.filter( (e) => TabsPage.checkActive(e.datestamp)).length;
       this.cd.detectChanges();
@@ -61,8 +66,6 @@ export class TabsPage implements OnInit, OnDestroy {
       this.activeEvents = this.eventService.get().filter( (e) => TabsPage.checkActive(e.datestamp)).length;
       this.cd.detectChanges();
     }, this.config.INTERVAL);
-
-
     // Subscribe for incoming push additional data to ask and open event from push
     const pushSub = this.push.onPush.subscribe((data) => {
       if (data.additionalData && data.additionalData.url && !this.prompt) {
@@ -99,15 +102,17 @@ export class TabsPage implements OnInit, OnDestroy {
   }
 
   /**
-   * Update active events counter on every component open
+   * Update active events counter badge on every component open
    */
   ionViewWillEnter() {
     this.activeEvents = this.eventService.get().filter( (e) => TabsPage.checkActive(e.datestamp)).length;
     this.cd.detectChanges();
   }
 
+  /**
+   * Unsubsidised from all subscriptions after destroy
+   */
   ngOnDestroy() {
-    // Unsubscribe from all subscriptions
     this._subscriptions.map(subscription => subscription.unsubscribe());
   }
 

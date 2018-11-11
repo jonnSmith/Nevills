@@ -11,6 +11,10 @@ import {Config} from '../../config.service';
   selector: 'list',
   templateUrl: 'list.html'
 })
+
+/**
+ * Events list display screen
+ */
 export class ListScreen implements OnInit, OnDestroy {
 
   // Dummy photo hex from config for photo placeholder
@@ -39,13 +43,23 @@ export class ListScreen implements OnInit, OnDestroy {
     this._subscriptions.push(eventPushedSub);
   }
 
+  /**
+   * Sort events by datetime
+   * @param {iEvent} a First comparing event
+   * @param {iEvent} b Second comparing event
+   * @returns {number} -1 if first is newer, 1 if older, 0 if same
+   */
   private static sortEvents(a: iEvent, b: iEvent) {
     if (parseInt(a.datestamp) > parseInt(b.datestamp)) return -1;
     else if (parseInt(a.datestamp) < parseInt(b.datestamp)) return 1;
     else return 0;
   }
 
+  /**
+   * Subscribe for events changing and set interval for actual datestamp
+   */
   ngOnInit() {
+    // Subscribe on events changed for list display update
     const eventsSub = this.eventService.onEventsChange.subscribe((evts) => {
       this.events = evts.sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
       this.cd.detectChanges();
@@ -110,8 +124,10 @@ export class ListScreen implements OnInit, OnDestroy {
     this.nav.push(EventScreen, { id: id });
   }
 
+  /**
+   * Unsubsidised from all subscriptions
+   */
   ngOnDestroy() {
-    // Unsubscribe from all subscriptions
     this._subscriptions.map(subscription => subscription.unsubscribe());
   }
 

@@ -7,6 +7,10 @@ import {Config} from '../../config.service';
   selector: 'header-component',
   templateUrl: 'header.html'
 })
+
+/**
+ * Header component for screen title and settings menu button
+ */
 export class HeaderComponent {
 
   // Title locale key input for display in header with translation

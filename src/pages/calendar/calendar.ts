@@ -13,10 +13,14 @@ import {EventScreen} from '../event/event';
   selector: 'calendar',
   templateUrl: 'calendar.html'
 })
+
+/**
+ * Calendar component with ng-fullcalendar 3d party component events output
+ */
 export class CalendarScreen implements OnInit, OnDestroy {
 
   calendarOptions: Options;
-  @ViewChild(CalendarComponent) ucCalendar: CalendarComponent;
+  @ViewChild(CalendarComponent) UICalendar: CalendarComponent;
 
   // Array for subscriptions
   private _subscriptions: ISubscription[] = [];
@@ -37,12 +41,12 @@ export class CalendarScreen implements OnInit, OnDestroy {
 
     // Subscribe for update events
     const eventsSub = this.eventService.onEventsChange.subscribe((evts: Array<iEvent>) => {
-      this.ucCalendar.fullCalendar( 'removeEvents' );
-      this.ucCalendar.fullCalendar('renderEvents', evts, true);
+      this.UICalendar.fullCalendar( 'removeEvents' );
+      this.UICalendar.fullCalendar('renderEvents', evts, true);
     });
     // Subscribe for change locale
     const localeSub = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-     this.ucCalendar.fullCalendar('option', 'locale', event.lang);
+     this.UICalendar.fullCalendar('option', 'locale', event.lang);
     });
     this._subscriptions.push(eventsSub, localeSub);
 
@@ -56,8 +60,10 @@ export class CalendarScreen implements OnInit, OnDestroy {
     this.nav.push(EventScreen, { id: event.id });
   }
 
+  /**
+   * Unsubsidised from all subscriptions after component destroy
+   */
   ngOnDestroy() {
-    // Unsubscribe from all subscriptions
     this._subscriptions.map(subscription => subscription.unsubscribe());
   }
 

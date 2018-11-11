@@ -5,6 +5,10 @@ import {TabsPage} from '../pages/tabs/tabs';
 @Component({
   templateUrl: 'app.html'
 })
+
+/**
+ * Root component: set root page as tabs and run startup actions
+ */
 export class NevillsApp {
   rootPage: any = TabsPage;
 

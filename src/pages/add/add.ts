@@ -13,6 +13,10 @@ import {emptyTodo} from "../../interfaces/event.interface";
   selector: 'add',
   templateUrl: 'add.html'
 })
+
+/**
+ * Add screen component with new event post form
+ */
 export class AddScreen implements OnInit {
 
   // Dummy photo hex from config for photo placeholder
@@ -34,6 +38,9 @@ export class AddScreen implements OnInit {
     this.options = this.config.CAMERA_OPTIONS;
   }
 
+  /**
+   * Setup reactive form on init and set interval for update datetime validation with current time
+   */
   ngOnInit() {
     this.setupForm();
     // Update validator for time field to disable adding outdated event

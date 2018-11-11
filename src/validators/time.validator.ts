@@ -5,7 +5,6 @@ import {FormControl} from '@angular/forms';
  * @param {string} dateFieldKey Filed key in event form for date field to get full event date
  * @returns {(control: FormControl) => {timeValidator: {expired: boolean}}} Returns error when current date is bigger then event full date
  */
-
 export function timeValidator (dateFieldKey: string) {
 
   let thisControl: FormControl;
@@ -31,7 +30,9 @@ export function timeValidator (dateFieldKey: string) {
       return null;
     }
 
+    // Timestamp of event display time in minutes
     let datetime = new Date(otherControl.value + ' ' + thisControl.value).getTime();
+
     if(datetime <= current) {
       return {
         timeValidator: {

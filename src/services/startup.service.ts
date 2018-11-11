@@ -16,7 +16,8 @@ import {iEvent} from '../interfaces/event.interface';
 @Injectable()
 export class StartupService {
 
-  loader;
+  // Loader container for check and create loader element only once even in recursion
+  private loader;
 
   constructor(private loading: LoadingController,
               private statusBar: StatusBar,

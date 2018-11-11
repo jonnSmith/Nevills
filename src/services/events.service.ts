@@ -5,7 +5,7 @@ import {HttpService} from './http.service'
 import {Config} from '../config.service';
 
 /**
- * Events service.
+ * Events service for managing events data between backend and client
  */
 @Injectable()
 export class EventsService {
@@ -22,7 +22,10 @@ export class EventsService {
               private file: File) {
   }
 
-  // Generate random id based on timestamp, random 4* digit and string shuffle
+  /**
+   * Generate random id based on timestamp, random 4* digit and string shuffle
+   * @returns {string} Unique randomized id
+   */
   static generateRandomId() {
     return ((new Date).getTime() + Math.floor(1000 + Math.random() * 9000))
         .toString()
@@ -199,7 +202,10 @@ export class EventsService {
     });
   }
 
-  // Events array service stored getter
+  /**
+   * Saved in service variable events array getter
+   * @returns {Array<iEvent>} Service stored events array
+   */
   get() {
     return this.events;
   }

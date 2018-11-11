@@ -3,7 +3,7 @@ import {Autostart} from '@ionic-native/autostart';
 import {Config} from '../config.service';
 
 /**
- * Push FCM service.
+ * Push FCM service for get token and observe push messages from device
  */
 @Injectable()
 export class PushService {

@@ -4,10 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'outdated',
 })
 
+/**
+ * Compare number and parsed to int string for datetime outdated check
+ */
 export class OutdatedPipe implements PipeTransform {
-  /**
-   * Compare number and parsed to int string for datestamp outdated check
-   */
   transform(value: string, ...args) {
     return args[0] >= parseInt(value);
   }
