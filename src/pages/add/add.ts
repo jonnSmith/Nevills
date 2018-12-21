@@ -1,8 +1,9 @@
-import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectorRef} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {DatePipe} from '@angular/common';
 import {FormGroup,FormArray,FormBuilder,Validators} from '@angular/forms';
 import {AlertController, LoadingController, Tabs} from 'ionic-angular';
+import {ISubscription} from 'rxjs/Subscription';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {Config} from '../../config.service';
@@ -17,12 +18,14 @@ import {emptyTodo} from "../../interfaces/event.interface";
 /**
  * Add screen component with new event post form
  */
-export class AddScreen implements OnInit {
+export class AddScreen implements OnInit, OnDestroy {
 
   // Dummy photo hex from config for photo placeholder
   public dummyPhoto: String;
   private options: CameraOptions;
   private addEventForm: FormGroup;
+
+  private _subscriptions: ISubscription[] = [];
 
   constructor(private config: Config,
               private camera: Camera,
@@ -151,9 +154,17 @@ export class AddScreen implements OnInit {
         });
         prompt.present();
       });
+      this._subscriptions.push(translateSubscription);
     } else {
       console.log('FORM ERROR', this.addEventForm.errors)
     }
+  }
+
+  /**
+   * Unsubsidised from all subscriptions after destroy
+   */
+  ngOnDestroy() {
+    this._subscriptions.map(subscription => subscription.unsubscribe());
   }
 
 }
