@@ -44,18 +44,18 @@ export class EventActions {
   }
 
   static ADD_UPDATE_EVENT_SUCCESS = 'ADD_UPDATE_EVENT_SUCCESS';
-  addUpdateEventSuccess(events: iEvent[]): EventAction {
+  addUpdateEventSuccess(event: iEvent): EventAction {
     return {
       type: EventActions.ADD_UPDATE_EVENT_SUCCESS,
-      payload: events
+      payload: event
     }
   }
 
   static DELETE_EVENT_SUCCESS = 'DELETE_EVENT_SUCCESS';
-  deleteEventSuccess(events: iEvent[]): EventAction {
+  deleteEventSuccess(id: string): EventAction {
     return {
       type: EventActions.DELETE_EVENT_SUCCESS,
-      payload: events
+      payload: id
     }
   }
 

@@ -36,11 +36,12 @@ export class EventEffects {
   @Effect() getEvents$ = this.actions$
     .withLatestFrom(this.store$)
     .map(([action, state]) => {
-      // console.log('state', state);
-      // console.log('action', action);
-      // if (state.events) {
-      //   return this.eventActions.loadEventsSuccess(state.events);
-      // }
-      return this.service.read();
+      console.log('state', state);
+      console.log('action', action);
+      if (state.events) {
+        return this.eventActions.loadEventsSuccess(state.events);
+      } else {
+        return this.service.read()
+      }
     });
 }

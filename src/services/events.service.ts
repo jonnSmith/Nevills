@@ -52,21 +52,19 @@ export class EventsService {
     }
   }
 
-  check() {
-    if(this.isMobile) {
-      return Observable.fromPromise(this.file.checkFile(this.file.dataDirectory, this.config.filename).then(flag => { return flag; }));
-    } else {
-      return Observable.of(this.config.EVENTS_STORAGE_KEY in localStorage);
-    }
-  }
-
   read() {
     if(this.isMobile) {
-      return Observable.fromPromise(this.file.readAsText(this.file.dataDirectory, this.config.filename).then(data => {
+      return Observable.fromPromise(this.file.checkFile(this.file.dataDirectory, this.config.filename).then(flag => {
+        if (flag) {
+          return this.file.readAsText(this.file.dataDirectory, this.config.filename)
+        } else {
+          return null;
+        }
+      }).then((data) => {
         return data ? JSON.parse(data) : [];
       }));
     } else {
-      return  Observable.of(localStorage.getItem(this.config.EVENTS_STORAGE_KEY));
+      return Observable.of(this.config.EVENTS_STORAGE_KEY in localStorage);
     }
   }
 
