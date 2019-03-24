@@ -1,6 +1,14 @@
 import {Injectable} from '@angular/core';
 
 /**
+ * Helper ENUM for filter outdated/actual events
+ */
+export enum EventTypes {
+  ACTUAL = 'actual',
+  OUTDATED = 'outdated'
+}
+
+/**
  * Service for configuration variables and constants storing
  */
 
@@ -24,9 +32,11 @@ export class Config {
   public LANGUAGES = ['en', 'ru'];
   public EVENTS_STORAGE_KEY = "nvls_evts";
   public LANG_KEY = "nvls_lang";
+  public TYPE_KEY = "nvls_evts_type";
   public STORAGE_FCM_TOKEN_KEY = "nvls_fcm_token";
   public filename = "events.nvls";
   public DEFAULT_LANGUAGE = localStorage.getItem(this.LANG_KEY) ?  localStorage.getItem(this.LANG_KEY) : "ru";
+  public SELECTED_EVENT_TYPE = localStorage.getItem(this.TYPE_KEY) ? localStorage.getItem(this.TYPE_KEY) as EventTypes : EventTypes.ACTUAL;
   public pushOptions = {
     ios: {
       alert: true,

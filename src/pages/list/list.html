@@ -1,7 +1,8 @@
 <header-component [title]="'list' | translate"></header-component>
 <ion-content padding>
   <ion-list *ngIf="events.length">
-    <ion-item  *ngFor="let e of events;"  [ngClass]="(e.datestamp | outdated: datestamp) ? 'outdated' : ''">
+    <ion-item  *ngFor="let e of events;" [ngClass]="(e.datestamp | outdated: datestamp) ? 'outdated' : ''"
+               [hidden]="(e.datestamp | outdated: datestamp) ? selectedEventType === eventTypes.ACTUAL : selectedEventType === eventTypes.OUTDATED">
       <ion-avatar item-start (click)="openEvent(e.id)">
         <ion-icon name="md-power" color="danger"></ion-icon>
         <img [src]="e.photo ? e.photo : dummyPhoto">
@@ -15,3 +16,15 @@
     </ion-item>
   </ion-list>
 </ion-content>
+<ion-footer no-border>
+  <ion-toolbar>
+    <ion-segment (ionChange)="segmentChanged()" *ngIf="eventTypes" [(ngModel)]="selectedEventType">
+      <ion-segment-button value="{{eventTypes.ACTUAL}}">
+        <ion-label>{{eventTypes.ACTUAL | translate}}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="{{eventTypes.OUTDATED}}">
+        <ion-label>{{eventTypes.OUTDATED | translate}}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-footer>

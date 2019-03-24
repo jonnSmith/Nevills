@@ -61,5 +61,20 @@ ng-fullcalendar {
   }
 }
 
+// Footer segmen select
+
+ion-footer {
+  ion-toolbar.toolbar {
+    min-height: auto;
+    top: 8px;
+    padding: 0;
+    ion-segment {
+      ion-segment-button.segment-button {
+        line-height: 1em;
+      }
+    }
+  }
+}
+
 
 

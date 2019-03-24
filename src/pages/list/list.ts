@@ -5,26 +5,29 @@ import {AlertController, NavController, LoadingController} from 'ionic-angular';
 import {ISubscription} from 'rxjs/Subscription';
 import {iEvent} from '../../interfaces/event.interface';
 import {EventScreen} from '../event/event';
-import {Config} from '../../config.service';
-
-@Component({
-  selector: 'list',
-  templateUrl: 'list.html'
-})
+import {Config, EventTypes} from '../../config.service';
 
 /**
  * Events list display screen
  */
+@Component({
+  selector: 'list',
+  templateUrl: 'list.html'
+})
 export class ListScreen implements OnInit, OnDestroy {
 
   // Dummy photo hex from config for photo placeholder
   public dummyPhoto: String;
-  public events:Array<iEvent> = [];
+  public events: Array<iEvent> = [];
   // Datestamp object for pipe check
   public datestamp = new Date().setSeconds(0,0);
 
   // Array for subscriptions
   private _subscriptions: ISubscription[] = [];
+
+  // Event types enum for filter outadet/actual events
+  public eventTypes = EventTypes;
+  public selectedEventType = EventTypes.ACTUAL;
 
   constructor(private loading: LoadingController,
               private translate: TranslateService,
@@ -41,6 +44,8 @@ export class ListScreen implements OnInit, OnDestroy {
       this.nav.push(EventScreen, {id: id});
     });
     this._subscriptions.push(eventPushedSub);
+    // Set selected event type from saved in config
+    this.selectedEventType = this.config.SELECTED_EVENT_TYPE;
   }
 
   /**
@@ -77,6 +82,14 @@ export class ListScreen implements OnInit, OnDestroy {
    */
   ionViewWillEnter() {
     this.events = this.eventService.get().sort((a: iEvent, b: iEvent) =>  ListScreen.sortEvents(a,b));
+    this.cd.detectChanges();
+  }
+
+  /**
+   * Segment click event, save selected eevent type and update UI
+   */
+  segmentChanged() {
+    localStorage.setItem(this.config.TYPE_KEY, this.selectedEventType);
     this.cd.detectChanges();
   }
 
