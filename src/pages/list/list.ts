@@ -1,11 +1,15 @@
 import {Component, ChangeDetectorRef, OnInit, OnDestroy} from '@angular/core';
+import {Observable} from 'rxjs/rx';
 import {TranslateService} from '@ngx-translate/core';
 import {EventsService} from '../../services/events.service';
 import {AlertController, NavController, LoadingController} from 'ionic-angular';
 import {ISubscription} from 'rxjs/Subscription';
-import {iEvent} from '../../state/event/event.model';
 import {EventScreen} from '../event/event';
 import {Config} from '../../config.service';
+
+import {Store} from '@ngrx/store';
+import {AppState} from '../../state/app.state';
+import {iEvent} from '../../state/event/event.model';
 
 @Component({
   selector: 'list',
@@ -26,13 +30,16 @@ export class ListScreen implements OnInit, OnDestroy {
   // Array for subscriptions
   private _subscriptions: ISubscription[] = [];
 
+  public $events: Observable<iEvent[]>;
+
   constructor(private loading: LoadingController,
               private translate: TranslateService,
               private config: Config,
               private eventService: EventsService,
               private alertCtrl: AlertController,
               private nav: NavController,
-              private cd: ChangeDetectorRef
+              private cd: ChangeDetectorRef,
+              private store: Store<AppState>
   ) {
     this.dummyPhoto = this.config.DUMMY_PHOTO_HASH;
     // Subscribe for special emitter from Tabs component to open push event page
@@ -41,6 +48,8 @@ export class ListScreen implements OnInit, OnDestroy {
       this.nav.push(EventScreen, {id: id});
     });
     this._subscriptions.push(eventPushedSub);
+
+    this.$events = this.store.select(state => state.events);
   }
 
   /**

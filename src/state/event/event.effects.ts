@@ -1,53 +1,46 @@
-import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Store, Action } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Store, Action} from '@ngrx/store';
+import {Effect, Actions} from '@ngrx/effects';
+import {Observable} from 'rxjs/rx';
 
-
-import {iEvent} from './event.model';
-import * as EventActions from './event.actions';
 import {EventsService} from '../../services/events.service';
-import {State} from './event.reducer';
+import {AppState} from "../app.state";
+import {iEvent} from './event.model';
+import {EventActions} from './event.actions';
 
 @Injectable()
-export class EventsEffects {
+export class EventEffects {
 
-  @Effect() getAllEvents$: Observable<Action> = this.actions$.pipe(
-    ofType(EventActions.GET_ALL_EVENTS)
-    .withLatestFrom(
-      this.store$.select(state => state.events)
-    )
-    .switchMap((events: iEvent[]) => {
+  constructor(private actions$: Actions,
+              private store$: Store<AppState>,
+              private service: EventsService,
+              private eventActions: EventActions) {
+  }
 
-      if (events) {
-        return [new EventActions.GetAllEventsSuccess(events)];
-      }
+  // @Effect() addEvent$ = this.actions$
+  //   .ofType(EventActions.ADD_EVENT)
+  //   .map<iEvent>(action => action.payload)
+  //   .mergeMap(event => this.service.add(event));
+  //
+  // @Effect() updateEvent$ = this.actions$
+  //   .ofType(EventActions.UPDATE_EVENT)
+  //   .map<iEvent>(action => action.payload)
+  //   .mergeMap(event => this.service.update(event));
+  //
+  // @Effect() deleteEvent$ = this.actions$
+  //   .ofType(EventActions.DELETE_EVENT)
+  //   .map<iEvent>(action => action.payload)
+  //   .mergeMap(event => this.service.delete(event));
 
-      return this.eventService.read().
-      then(
-        map((events: iEvent[]) => new EventActions.GetAllEventsSuccess(events)),
-        catchError(err => of(new EventActions.GetAllEventsFail(err)))
-      )
 
-    }));
-//
-//   @Effect()
-//   getEventById: Observable<Action> = this.actions$
-//     .ofType(EventActions.GET_EVENT)
-//     .pipe(
-//       map((action: EventActions.GetEvent) => action.payload),
-//       switchMap((id: string) => this.eventService.getEvent(id).
-//       pipe(
-//         map((todo: Event) => new EventActions.GetEventSuccess(todo)),
-//         catchError(err => of(new EventActions.GetEventFail(err)))
-//       ))
-//     );
-
-  constructor(
-    private actions$: Actions,
-    private eventService: EventsService,
-    private store$: Store<State>
-  ) { }
+  @Effect() getEvents$ = this.actions$
+    .withLatestFrom(this.store$)
+    .map(([action, state]) => {
+      // console.log('state', state);
+      // console.log('action', action);
+      // if (state.events) {
+      //   return this.eventActions.loadEventsSuccess(state.events);
+      // }
+      return this.service.read();
+    });
 }

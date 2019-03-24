@@ -1,118 +1,62 @@
-import { Action } from "@ngrx/store";
-import { iEvent } from "./event.model";
+import { Injectable } from '@angular/core';
+import { Action } from '@ngrx/store';
 
-export const GET_ALL_EVENTS = '[EVENT] Get All Events';
-export const GET_ALL_EVENTS_SUCCESS = '[EVENT] Get All Events Success';
-export const GET_ALL_EVENTS_FAIL = '[EVENT] Get All Events Fail';
-
-export const GET_EVENT = '[EVENT] Get Event';
-export const GET_EVENT_SUCCESS = '[EVENT] Get Event Success';
-export const GET_EVENT_FAIL = '[EVENT] Get Event Fail';
-
-export const ADD_EVENT = '[EVENT] Add Event';
-export const ADD_EVENT_SUCCESS = '[EVENT] Add Event Success';
-export const ADD_EVENT_FAIL = '[EVENT] Add Event Fail';
-
-export const DELETE_EVENT = '[EVENT] Delete Event';
-export const DELETE_EVENT_SUCCESS = '[EVENT] Delete Event Success';
-export const DELETE_EVENT_FAIL = '[EVENT] Delete Event Fail';
-
-export const UPDATE_EVENT = '[EVENT] Update Event';
-export const UPDATE_EVENT_SUCCESS = '[EVENT] Update Event Success';
-export const UPDATE_EVENT_FAIL = '[EVENT] Update Event Fail';
-
-//Get Event List
-export class GetAllEvents implements Action {
-  readonly type = GET_ALL_EVENTS;
+export class EventAction implements Action {
+  type: string;
+  payload: any;
 }
 
-export class GetAllEventsSuccess implements Action {
-  readonly type = GET_ALL_EVENTS_SUCCESS;
-  constructor(public payload: iEvent[]) { }
-}
+import { iEvent } from './event.model';
 
-export class GetAllEventsFail implements Action {
-  readonly type = GET_ALL_EVENTS_FAIL;
-  constructor(public payload: any) { }
-}
+@Injectable()
+export class EventActions {
 
-//Get event by id
-export class GetEvent implements Action {
-  readonly type = GET_EVENT;
-  constructor(public payload: string) { }
-}
+  static ADD_EVENT = 'ADD_EVENT';
+  addEvent(event: iEvent): EventAction {
+    return {
+      type: EventActions.ADD_EVENT,
+      payload: event
+    }
+  }
 
-export class GetEventSuccess implements Action {
-  readonly type = GET_EVENT_SUCCESS;
-  constructor(public payload: iEvent) { }
-}
+  static UPDATE_EVENT = 'UPDATE_EVENT';
+  updateEvent(events: iEvent[]): EventAction {
+    return {
+      type: EventActions.UPDATE_EVENT,
+      payload: events
+    }
+  }
 
-export class GetEventFail implements Action {
-  readonly type = GET_EVENT_FAIL;
-  constructor(public payload: any) { }
-}
+  static DELETE_EVENT = 'DELETE_EVENT';
+  deleteEvent(event: iEvent): EventAction {
+    return {
+      type: EventActions.DELETE_EVENT,
+      payload: event
+    }
+  }
 
-//Add event
-export class AddEvent implements Action {
-  readonly type = ADD_EVENT;
-  constructor(public payload: iEvent) { }
-}
+  static LOAD_EVENTS_SUCCESS = 'LOAD_EVENTS_SUCCESS';
+  loadEventsSuccess(events: iEvent[]): EventAction {
+    return {
+      type: EventActions.LOAD_EVENTS_SUCCESS,
+      payload: events
+    }
+  }
 
-export class AddEventSuccess implements Action {
-  readonly type = ADD_EVENT_SUCCESS;
-  constructor(public payload: iEvent[]) { }
-}
+  static ADD_UPDATE_EVENT_SUCCESS = 'ADD_UPDATE_EVENT_SUCCESS';
+  addUpdateEventSuccess(events: iEvent[]): EventAction {
+    return {
+      type: EventActions.ADD_UPDATE_EVENT_SUCCESS,
+      payload: events
+    }
+  }
 
-export class AddEventFail implements Action {
-  readonly type = ADD_EVENT_FAIL;
-  constructor(public payload: any) { }
-}
+  static DELETE_EVENT_SUCCESS = 'DELETE_EVENT_SUCCESS';
+  deleteEventSuccess(events: iEvent[]): EventAction {
+    return {
+      type: EventActions.DELETE_EVENT_SUCCESS,
+      payload: events
+    }
+  }
 
-//Delete event
-export class DeleteEvent implements Action {
-  readonly type = DELETE_EVENT;
-  constructor(public payload: iEvent) { }
 }
-
-export class DeleteEventSuccess implements Action {
-  readonly type = DELETE_EVENT_SUCCESS;
-  constructor(public payload: iEvent[]) { }
-}
-
-export class DeleteEventFail implements Action {
-  readonly type = DELETE_EVENT_FAIL;
-  constructor(public payload: any) { }
-}
-
-//Update event
-export class UpdateEvent implements Action {
-  readonly type = UPDATE_EVENT;
-  constructor(public payload: iEvent) { }
-}
-
-export class UpdateEventSuccess implements Action {
-  readonly type = UPDATE_EVENT_SUCCESS;
-  constructor(public payload: iEvent[]) { }
-}
-
-export class UpdateEventFail implements Action {
-  readonly type = UPDATE_EVENT_FAIL;
-  constructor(public payload: any) { }
-}
-
-export type EventActions =
-  GetAllEvents
-  | GetAllEventsSuccess
-  | GetAllEventsFail
-  | GetEvent
-  | GetEventSuccess
-  | GetEventFail
-  | AddEvent
-  | AddEventSuccess
-  | AddEventFail
-  | DeleteEvent
-  | DeleteEventSuccess
-  | DeleteEventFail
-  | UpdateEvent
-  | UpdateEventSuccess
-  | UpdateEventFail;

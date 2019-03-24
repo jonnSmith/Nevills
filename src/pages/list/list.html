@@ -1,6 +1,7 @@
 <header-component [title]="'list' | translate"></header-component>
 <ion-content padding>
   <ion-list *ngIf="events.length">
+
     <ion-item  *ngFor="let e of events;"  [ngClass]="(e.datestamp | outdated: datestamp) ? 'outdated' : ''">
       <ion-avatar item-start (click)="openEvent(e.id)">
         <ion-icon name="md-power" color="danger"></ion-icon>

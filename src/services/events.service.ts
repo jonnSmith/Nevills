@@ -3,6 +3,7 @@ import {File} from '@ionic-native/file';
 import {iEvent} from '../state/event/event.model';
 import {HttpService} from './http.service'
 import {Config} from '../config.service';
+import { Observable } from 'rxjs/rx';
 
 /**
  * Events service for managing events data between backend and client
@@ -39,27 +40,33 @@ export class EventsService {
         .join('');
   }
 
-  save() {
+  save(events) {
     if(this.isMobile) {
-      return this.file.writeFile(this.file.dataDirectory, this.config.filename, JSON.stringify(this.events), {replace: true});
+      return Observable.fromPromise(
+        this.file.writeFile(this.file.dataDirectory, this.config.filename, JSON.stringify(events), {replace: true}).then(_ => {
+          return events;
+        })
+      );
     } else {
-      return localStorage.setItem(this.config.EVENTS_STORAGE_KEY, JSON.stringify(this.events));
+      return Observable.of(localStorage.setItem(this.config.EVENTS_STORAGE_KEY, JSON.stringify(events)));
     }
   }
 
   check() {
     if(this.isMobile) {
-      return this.file.checkFile(this.file.dataDirectory, this.config.filename);
+      return Observable.fromPromise(this.file.checkFile(this.file.dataDirectory, this.config.filename).then(flag => { return flag; }));
     } else {
-      return new Promise( res => res(this.config.EVENTS_STORAGE_KEY in localStorage) );
+      return Observable.of(this.config.EVENTS_STORAGE_KEY in localStorage);
     }
   }
 
   read() {
     if(this.isMobile) {
-      return this.file.readAsText(this.file.dataDirectory, this.config.filename);
+      return Observable.fromPromise(this.file.readAsText(this.file.dataDirectory, this.config.filename).then(data => {
+        return data ? JSON.parse(data) : [];
+      }));
     } else {
-      return new Promise( res => res(localStorage.getItem(this.config.EVENTS_STORAGE_KEY)) );
+      return  Observable.of(localStorage.getItem(this.config.EVENTS_STORAGE_KEY));
     }
   }
 
