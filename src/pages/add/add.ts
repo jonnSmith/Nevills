@@ -8,7 +8,7 @@ import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
 import {Config} from '../../config.service';
 import {timeValidator} from "../../validators/time.validator";
-import {emptyTodo} from "../../interfaces/event.interface";
+import {emptyTodo} from "../../state/event/event.model";
 
 @Component({
   selector: 'add',

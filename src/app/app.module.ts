@@ -33,6 +33,11 @@ import {Config} from '../config.service';
 
 import {OutdatedPipe} from '../pipes/outdated';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { EventReducer } from '../state/event/event.reducer';
+import { EventsEffects } from '../state/event/event.effects';
+
 /**
  * Translation files setup
  */
@@ -63,7 +68,9 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     IonicModule.forRoot(NevillsApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    StoreModule.forRoot(EventReducer),
+    EffectsModule.forRoot([EventsEffects])
   ],
   bootstrap: [IonicApp],
   entryComponents: [

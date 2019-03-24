@@ -3,7 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {EventsService} from '../../services/events.service';
 import {AlertController, NavController, LoadingController} from 'ionic-angular';
 import {ISubscription} from 'rxjs/Subscription';
-import {iEvent} from '../../interfaces/event.interface';
+import {iEvent} from '../../state/event/event.model';
 import {EventScreen} from '../event/event';
 import {Config} from '../../config.service';
 

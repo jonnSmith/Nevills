@@ -1,6 +1,6 @@
 import {Injectable, EventEmitter} from '@angular/core';
 import {File} from '@ionic-native/file';
-import {iEvent} from '../interfaces/event.interface';
+import {iEvent} from '../state/event/event.model';
 import {HttpService} from './http.service'
 import {Config} from '../config.service';
 
@@ -17,9 +17,12 @@ export class EventsService {
   // Emitter for pass push event from tabs to list component
   public onEventsPushed: EventEmitter<String> = new EventEmitter();
 
+  public isMobile: boolean;
+
   constructor(private config: Config,
               private http: HttpService,
               private file: File) {
+    this.isMobile = window['cordova'];
   }
 
   /**
@@ -35,6 +38,39 @@ export class EventsService {
         })
         .join('');
   }
+
+  save() {
+    if(this.isMobile) {
+      return this.file.writeFile(this.file.dataDirectory, this.config.filename, JSON.stringify(this.events), {replace: true});
+    } else {
+      return localStorage.setItem(this.config.EVENTS_STORAGE_KEY, JSON.stringify(this.events));
+    }
+  }
+
+  check() {
+    if(this.isMobile) {
+      return this.file.checkFile(this.file.dataDirectory, this.config.filename);
+    } else {
+      return new Promise( res => res(this.config.EVENTS_STORAGE_KEY in localStorage) );
+    }
+  }
+
+  read() {
+    if(this.isMobile) {
+      return this.file.readAsText(this.file.dataDirectory, this.config.filename);
+    } else {
+      return new Promise( res => res(localStorage.getItem(this.config.EVENTS_STORAGE_KEY)) );
+    }
+  }
+
+  post(evt: iEvent) {
+    return this.http.post(this.config.backend.host + this.config.backend.api.layer, evt);
+  }
+
+  del(evt: iEvent) {
+    return this.http.post(this.config.backend.host + this.config.backend.api.layer + 'delete', evt);
+  }
+
 
   /**
    * Init function with read local stored events from file on device or local storage on debug web mode
@@ -81,6 +117,8 @@ export class EventsService {
       }
     });
   }
+
+
 
   /**
    * Save new event on backed and in storage - file or local storage in debug

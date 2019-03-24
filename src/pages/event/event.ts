@@ -5,7 +5,7 @@ import {AlertController, NavParams, NavController, LoadingController} from 'ioni
 import {ISubscription} from 'rxjs/Subscription';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {EventsService} from '../../services/events.service';
-import {iEvent, iTodo, emptyTodo} from '../../interfaces/event.interface';
+import {iEvent, iTodo, emptyTodo} from '../../state/event/event.model';
 import {Config} from '../../config.service';
 import {timeValidator} from "../../validators/time.validator";
 

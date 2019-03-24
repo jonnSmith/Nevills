@@ -8,7 +8,7 @@ import {EventsService} from "./events.service";
 import {HttpService} from "./http.service";
 import {Config} from '../config.service';
 import {PushService} from "./push.service";
-import {iEvent} from '../interfaces/event.interface';
+import {iEvent} from '../state/event/event.model';
 
 /**
  * Startup service.

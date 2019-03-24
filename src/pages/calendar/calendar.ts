@@ -5,7 +5,7 @@ import {CalendarComponent} from 'ng-fullcalendar';
 import {Options} from 'fullcalendar';
 import {ISubscription} from 'rxjs/Subscription';
 import {EventsService} from '../../services/events.service';
-import {iEvent} from '../../interfaces/event.interface';
+import {iEvent} from '../../state/event/event.model';
 import {Config} from '../../config.service';
 import {EventScreen} from '../event/event';
 
